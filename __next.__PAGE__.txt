@@ -1,0 +1,18 @@
+1:"$Sreact.fragment"
+2:I[97367,["/_next/static/chunks/3fntmmi971322.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+7:I[97367,["/_next/static/chunks/3fntmmi971322.js"],"ViewportBoundary"]
+8:I[97367,["/_next/static/chunks/3fntmmi971322.js"],"MetadataBoundary"]
+9:I[27201,["/_next/static/chunks/3fntmmi971322.js"],"IconMark"]
+:HL["/_next/static/chunks/3opjigc49h_u-.css","style"]
+:HL["https://i.pinimg.com/736x/f3/8d/d4/f38dd4400921975b06f533fef78b6b04.jpg","image"]
+6:X
+0:{"buildId":"VZGHL6uPxtfuGlP36RlaG","data":[{"rsc":["$","$1","c",{"children":[["$","div",null,{}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":"$@5","staleTime":"$6","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L7",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L8",null,{"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Yupii"}],["$","meta","1",{"name":"description","content":"Just front-end developers and network engineers, i like the kawaii style, like in Blue Archive"}],["$","meta","2",{"name":"referrer","content":"origin-when-cross-origin"}],["$","meta","3",{"name":"creator","content":"@ernestoyoofi"}],["$","meta","4",{"name":"publisher","content":"@ernestoyoofi"}],["$","link","5",{"rel":"canonical","href":"https://writes.yupibknpermen.my.id"}],["$","meta","6",{"property":"og:title","content":"Yupii"}],["$","meta","7",{"property":"og:description","content":"Just front-end developers and network engineers, i like the kawaii style, like in Blue Archive"}],["$","meta","8",{"property":"og:url","content":"https://writes.yupibknpermen.my.id"}],["$","meta","9",{"property":"og:site_name","content":"writes.yupibknpermen.my.id"}],["$","meta","10",{"name":"twitter:card","content":"summary"}],["$","meta","11",{"name":"twitter:creator","content":"@ernestoyoofi"}],["$","meta","12",{"name":"twitter:title","content":"Yupii"}],["$","meta","13",{"name":"twitter:description","content":"Just front-end developers and network engineers, i like the kawaii style, like in Blue Archive"}],["$","link","14",{"rel":"icon","href":"/favicon.ico?favicon.2vob68tjqpejf.ico","sizes":"256x256","type":"image/x-icon"}],["$","$L9","15",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":"$@a","staleTime":"$6","varyParams":null},{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/3opjigc49h_u-.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/3fntmmi971322.js","async":true}]],["$","div",null,{"className":"w-full max-w-md m-auto h-dvh min-h-72 text-center flex flex-col items-center justify-center","children":[["$","img",null,{"src":"https://i.pinimg.com/736x/f3/8d/d4/f38dd4400921975b06f533fef78b6b04.jpg","width":"100%","style":{"maxWidth":200}}],["$","h1",null,{"className":"font-bold text-2xl","children":"Uhh... we're currently performing maintenance"}],["$","p",null,{"className":"mt-2 text-neutral-500","children":"Please come back another time or check with the site owner for more information. Thank you!"}]]}]]}],"isPartial":"$@b","staleTime":"$6","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@c","rootVaryParams":null,"needsRuntimeRequest":"$@d"}
+4:null
+6:300
+d:true
+6:C
+c:0
+a:"$undefined"
+b:"$undefined"
+5:"$undefined"
