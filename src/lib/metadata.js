@@ -8,8 +8,8 @@ const defaultMetadata = {
   description:
     "A highly customizable, aesthetic MDX blog template built with Next.js.",
   referrer: "origin-when-cross-origin",
-  publisher: "@ernestoyoofi",
-  creator: "@ernestoyoofi",
+  publisher: "@ernestoyoofi <tsukuru.project@yupibknpermen.my.id>",
+  creator: "@ernestoyoofi <tsukuru.project@yupibknpermen.my.id>",
   metadataBase: undefined,
   url: undefined,
   openGraph: {
@@ -22,7 +22,7 @@ const defaultMetadata = {
     title: "Tsukuru",
     description:
       "A highly customizable, aesthetic MDX blog template built with Next.js.",
-    creator: "@ernestoyoofi",
+    creator: "@ernestoyoofi <tsukuru.project@yupibknpermen.my.id>",
     images: [],
   },
   verification: {
@@ -99,7 +99,7 @@ export default async function GenerateMetadata({
     if (usedMetadata?.allowbot === false) {
       basicMetadata.robots = { index: false, follow: false };
     }
-    const googleVerification = validText(usedMetadata?.googleverification);
+    const googleVerification = validText(usedMetadata?.googleverfication);
     if (googleVerification) {
       basicMetadata.verification.google = googleVerification;
     }

@@ -3,7 +3,7 @@ image: "/image/how-to-use-tsukuru-config-and-deploy-eHFP1toU.webp"
 title: "How to Use Tsukuru, and How to Configure and Deploy It to GitHub Pages"
 description: "Tsukuru is a simple, modern template for a blog with ready-to-use posts no hassle required. All you need is a standard repository and the template itself, it supports self-hosting or other static deployment methods."
 date: "2026-08-22T15:25:02.555Z"
-author: "@ernestoyoofi"
+author: ["@ernestoyoofi"]
 tags: ["Tsukuru", "Development", "Tutorial", "Setup"]
 category: "tutorial"
 canonical: "https://tsukuru.yupipii.my.id/how-to-use-tsukuru-config-and-deploy"
@@ -12,18 +12,159 @@ codelink: "eHFP1toU"
 draft: false
 ---
 
-Tsukuru makes it easy to set up a modern static blog in minutes...
+Tsukuru makes it easy to set up a modern static blog in minutes. In this guide, we will walk through how to use Tsukuru, configure it to your liking, and deploy it to GitHub Pages.
+
+## Prerequisites
+
+Before getting started, make sure you have the following installed:
+
+- **Node.js** (v18 or higher)
+- **Bun** (recommended) or npm/yarn
+- A **GitHub account** for deployment
+
+## Getting Started
+
+Clone the Tsukuru repository and install dependencies:
+
+```bash
+git clone https://github.com/your-username/tsukuru.git
+cd tsukuru
+bun install
+```
+
+## Project Structure
+
+Here is a quick overview of the project structure:
 
 ```
-image: string (required)
-title: string (required)
-description: string (required)
-date: string (required)
-author: string/array<string> (optional)
-tags: array<string> (optional)
-category: string (optional, default will be set paperwrite)
-canonical: string (optional)
-slug: string (optional, default will be set filename)
-codelink: string (optional, if not added, no shortlinks will be generated.)
-draft: boolean (optional, by default will be set false)
+tsukuru/
+├── posts/            # Your MDX blog posts go here
+├── src/
+│   └── lib/
+│       └── posts/    # Content parser and utilities
+├── public/
+│   └── image/        # Post images
+├── opencode.json     # Tsukuru configuration
+└── package.json
 ```
+
+## Writing a Post
+
+Create a new `.mdx` file inside the `posts/` directory. Each post requires frontmatter metadata at the top:
+
+```mdx
+---
+image: "/image/my-post.webp"
+title: "My New Blog Post"
+description: "A short description of the post with at least 16 characters."
+date: "2026-08-25T10:00:00.000Z"
+author: ["@yourname"]
+tags: ["Tutorial", "Getting Started"]
+category: "tutorial"
+slug: "my-new-blog-post"
+draft: false
+---
+
+Your content starts here. You can use standard Markdown and MDX features.
+```
+
+### Metadata Fields
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `image` | string | Yes | — | Path to the post image |
+| `title` | string | Yes | — | Post title (min 2 chars) |
+| `description` | string | Yes | — | Post description (min 16 chars) |
+| `date` | string | Yes | — | ISO date string |
+| `author` | string \| string[] | No | `null` | Author name(s) |
+| `tags` | string[] | No | `[]` | Post tags |
+| `category` | string | No | `"global"` | Post category |
+| `canonical` | string | No | `null` | Canonical URL |
+| `slug` | string | No | filename | URL slug |
+| `codelink` | string | No | `null` | Short code for link |
+| `draft` | boolean | No | `false` | Hide from production |
+
+## Configuration
+
+Open `opencode.json` to configure your blog settings such as site title, description, and other preferences. Adjust the values to match your own blog identity.
+
+## Local Development
+
+Run the development server to preview your blog locally:
+
+```bash
+bun dev
+```
+
+Visit `http://localhost:3000` to see your blog in action. Changes will hot-reload automatically.
+
+## Deploy to GitHub Pages
+
+### 1. Push to GitHub
+
+Initialize a git repository and push your code:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/your-username/your-repo.git
+git push -u origin main
+```
+
+### 2. Configure GitHub Actions
+
+Create a workflow file at `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .next
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+### 3. Enable GitHub Pages
+
+Go to your repository **Settings > Pages** and set the source to **GitHub Actions**.
+
+Push any change to `main` and your blog will be deployed automatically.
+
+## Self-Hosting
+
+If you prefer self-hosting, Tsukuru outputs a fully static site. You can use any static hosting provider:
+
+- **Nginx** or **Apache** — serve the `.next` output directory
+- **Docker** — containerize the build and serve it
+- **Vercel**, **Netlify**, **Cloudflare Pages** — zero-config deployments
+
+## Conclusion
+
+Tsukuru is designed to be minimal and hassle-free. Write your posts in MDX, push to your repository, and let the deployment pipeline handle the rest. No complex CMS, no database, just clean static files.

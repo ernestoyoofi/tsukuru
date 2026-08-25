@@ -1,3 +1,3 @@
-export default function App() {
+export default function Page_RecentPosts() {
   return <div></div>;
 }
