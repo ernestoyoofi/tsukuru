@@ -1,14 +1,24 @@
 import ContentParser from "./content-parser";
 import { readAllArticle } from "./read-dir";
+import loadConfig from "../load-config";
 
 async function parseAllPosts() {
+  const { base: baseMeta = {} } = await loadConfig();
   const list = readAllArticle();
-  const posts = [];
-  for (let i = 0; i < list.length; i++) {
-    posts.push(await ContentParser(list[i][0], list[i][1]));
-  }
+  const posts = await Promise.all(
+    list.map(([filePath, fileName]) => ContentParser(filePath, fileName)),
+  );
+
   detectDuplicateSlugs(posts);
-  return posts;
+
+  return posts.map((post) => ({
+    ...post,
+    metadata: {
+      ...post.metadata,
+      cardtype: baseMeta.stylecard ?? "basic",
+      showauthor: Boolean(baseMeta.showauthor),
+    },
+  }));
 }
 
 function detectDuplicateSlugs(posts) {

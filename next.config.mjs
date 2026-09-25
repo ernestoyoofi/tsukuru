@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  allowedDevOrigins: ["*"],
+  allowedDevOrigins: ["192.168.42.*", "localhost:3000"],
   transpilePackages: ["mermaid"],
 };
 

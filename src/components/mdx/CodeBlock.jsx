@@ -129,15 +129,39 @@ export default function MDX_Component_CodeBlock({
         >
           {copied ? (
             <>
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M13.5 4.5L6.5 11.5L2.5 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M13.5 4.5L6.5 11.5L2.5 7.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               Copied
             </>
           ) : (
             <>
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M5 3.5H4a1 1 0 00-1 1v7a1 1 0 001 1h6a1 1 0 001-1v-1M8 3.5a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1H9a1 1 0 01-1-1v-4z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M5 3.5H4a1 1 0 00-1 1v7a1 1 0 001 1h6a1 1 0 001-1v-1M8 3.5a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1H9a1 1 0 01-1-1v-4z"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               Copy
             </>

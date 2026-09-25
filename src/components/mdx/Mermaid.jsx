@@ -1,6 +1,13 @@
 "use client";
 
-import { Children, isValidElement, useEffect, useId, useRef, useState } from "react";
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import mermaid from "mermaid";
 
 let mermaidInitialized = false;
@@ -70,7 +77,11 @@ export default function MDX_Component_Mermaid({ chart = "", children = null }) {
           {text}
         </div>
       ) : (
-        <div ref={containerRef} className="flex justify-center text-sm" aria-live="polite" />
+        <div
+          ref={containerRef}
+          className="flex justify-center text-sm"
+          aria-live="polite"
+        />
       )}
     </div>
   );

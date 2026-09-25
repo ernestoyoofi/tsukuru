@@ -10,6 +10,10 @@ export default async function Page_ListArticle_ByCategory({ params }) {
   );
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+}
+
 export async function generateStaticParams() {
   const categories = await Fn_GetListCategories();
   if (!categories[0]) {

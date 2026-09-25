@@ -27,7 +27,8 @@ export default function PreBlock({ children, ...rest }) {
   const className = props.className || "";
   const langMatch = String(className).match(/language-(\w+)/);
   const language = langMatch ? langMatch[1] : "";
-  const highlight = getMetaHighlight(codeEl) || props.highlight || rest.highlight || "";
+  const highlight =
+    getMetaHighlight(codeEl) || props.highlight || rest.highlight || "";
 
   // if it's truly a code block, delegate to CodeBlock
   if (language || String(props.children || "").includes("\n") || highlight) {
