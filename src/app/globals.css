@@ -19,6 +19,9 @@
     --foreground: #ededed;
   }
 } */
+pre {
+  font-size: 13px;
+}
 
 body {
   background: var(--background);

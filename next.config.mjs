@@ -4,6 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  allowedDevOrigins: ["*"],
+  transpilePackages: ["mermaid"],
 };
 
 export default nextConfig;

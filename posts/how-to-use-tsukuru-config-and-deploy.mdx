@@ -3,7 +3,7 @@ image: "/image/how-to-use-tsukuru-config-and-deploy-eHFP1toU.webp"
 title: "How to Use Tsukuru, and How to Configure and Deploy It to GitHub Pages"
 description: "Tsukuru is a simple, modern template for a blog with ready-to-use posts no hassle required. All you need is a standard repository and the template itself, it supports self-hosting or other static deployment methods."
 date: "2026-08-22T15:25:02.555Z"
-author: ["@ernestoyoofi"]
+author: ["@ernestoyoofi <github/ernestoyoofi>"]
 tags: ["Tsukuru", "Development", "Tutorial", "Setup"]
 category: "tutorial"
 canonical: "https://tsukuru.yupipii.my.id/how-to-use-tsukuru-config-and-deploy"
@@ -11,6 +11,10 @@ slug: "how-to-use-tsukuru-config-and-deploy"
 codelink: "eHFP1toU"
 draft: false
 ---
+
+<Callout type="info" title="Heads up">
+  This is default page / markdown for template.
+</Callout>
 
 Tsukuru makes it easy to set up a modern static blog in minutes. In this guide, we will walk through how to use Tsukuru, configure it to your liking, and deploy it to GitHub Pages.
 
@@ -36,7 +40,7 @@ bun install
 
 Here is a quick overview of the project structure:
 
-```
+```txt
 tsukuru/
 ├── posts/            # Your MDX blog posts go here
 ├── src/
@@ -72,10 +76,10 @@ Your content starts here. You can use standard Markdown and MDX features.
 
 | Field | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `image` | string | Yes | — | Path to the post image |
-| `title` | string | Yes | — | Post title (min 2 chars) |
-| `description` | string | Yes | — | Post description (min 16 chars) |
-| `date` | string | Yes | — | ISO date string |
+| `image` | string | Yes | - | Path to the post image |
+| `title` | string | Yes | - | Post title (min 2 chars) |
+| `description` | string | Yes | - | Post description (min 16 chars) |
+| `date` | string | Yes | - | ISO date string |
 | `author` | string \| string[] | No | `null` | Author name(s) |
 | `tags` | string[] | No | `[]` | Post tags |
 | `category` | string | No | `"global"` | Post category |
@@ -161,9 +165,9 @@ Push any change to `main` and your blog will be deployed automatically.
 
 If you prefer self-hosting, Tsukuru outputs a fully static site. You can use any static hosting provider:
 
-- **Nginx** or **Apache** — serve the `.next` output directory
-- **Docker** — containerize the build and serve it
-- **Vercel**, **Netlify**, **Cloudflare Pages** — zero-config deployments
+- **Nginx** or **Apache** - serve the `.next` output directory
+- **Docker** - containerize the build and serve it
+- **Vercel**, **Netlify**, **Cloudflare Pages** - zero-config deployments
 
 ## Conclusion
 

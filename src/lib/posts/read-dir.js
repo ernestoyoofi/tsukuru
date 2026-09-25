@@ -30,21 +30,9 @@ export function readDir() {
   return fs.readdirSync(postsFolder).filter((f) => f.endsWith(".mdx"));
 }
 
-let _cachedArticles = null;
-
-const isDev = process.env.NODE_ENV !== "production";
-
-export function readAllArticle(forceRefresh = false) {
-  const shouldRefresh = isDev || forceRefresh;
-
-  if (_cachedArticles && !shouldRefresh) {
-    console.log("[INFO]: All content saved in memory (cached mode)");
-    return _cachedArticles;
-  }
-
-  console.log("[INFO]: Hard refresh, reading all content from disk");
+export function readAllArticle() {
   const getList = readDir();
-  _cachedArticles = getList.map((fileName) => {
+  return getList.map((fileName) => {
     try {
       const filePath = path.join(postsFolder, fileName);
       const content = fs.readFileSync(filePath, "utf-8");
@@ -53,10 +41,4 @@ export function readAllArticle(forceRefresh = false) {
       return ["", fileName];
     }
   });
-
-  return _cachedArticles;
-}
-
-export function invalidateCache() {
-  _cachedArticles = null;
 }

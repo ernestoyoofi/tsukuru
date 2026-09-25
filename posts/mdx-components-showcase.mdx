@@ -1,0 +1,185 @@
+---
+image: "/image/mdx-components-showcase-a1B2c3.webp"
+title: "MDX Components Showcase"
+description: "A complete showcase of all custom MDX components available in Tsukuru with copy-paste usage examples for every component."
+date: "2026-08-26T10:00:00.000Z"
+author: ["@ernestoyoofi <github/ernestoyoofi>"]
+tags: ["Tsukuru", "MDX", "Components"]
+category: "tutorial"
+slug: "mdx-components-showcase"
+draft: false
+---
+
+This post demonstrates every custom MDX component available in Tsukuru. Copy the code blocks to use them in your own posts.
+
+## Callout
+
+<Callout type="info" title="Heads up">
+This is an info callout. Use it for tips and neutral notes.
+</Callout>
+
+```mdx
+<Callout type="info" title="Heads up">
+This is an info callout. Use it for tips and neutral notes.
+</Callout>
+```
+
+Available `type` values: `info`, `success`, `warning`, `danger`.
+
+<Callout type="success" title="It works">
+Your setup is complete and everything is running.
+</Callout>
+
+<Callout type="warning" title="Be careful">
+This action cannot be undone once confirmed.
+</Callout>
+
+<Callout type="danger" title="Do not do this">
+Never commit your secret keys to a public repository.
+</Callout>
+
+## Badge
+
+New posts can be marked with a <Badge>default</Badge> badge, or highlight
+something as <Badge variant="info">info</Badge>, <Badge variant="success">done</Badge>,
+<Badge variant="warning">beta</Badge>, or <Badge variant="danger">breaking</Badge>.
+
+```mdx
+<Badge>default</Badge>
+<Badge variant="info">info</Badge>
+<Badge variant="success">done</Badge>
+<Badge variant="warning">beta</Badge>
+<Badge variant="danger">breaking</Badge>
+```
+
+## Cards
+
+<Cards>
+  <Card title="Getting Started" href="/how-to-use-tsukuru-config-and-deploy">
+    Learn how to install, configure, and deploy Tsukuru step by step.
+  </Card>
+  <Card title="MDX Guide">
+    Cards without an `href` render as plain panels with no link.
+  </Card>
+</Cards>
+
+```mdx
+<Cards>
+  <Card title="Getting Started" href="/how-to-use-tsukuru-config-and-deploy">
+    Learn how to install, configure, and deploy Tsukuru step by step.
+  </Card>
+  <Card title="MDX Guide">
+    Cards without an `href` render as plain panels with no link.
+  </Card>
+</Cards>
+```
+
+## Columns
+
+<Columns>
+  <Column>
+    ### Left column
+
+    Columns stack vertically on mobile and sit side by side on desktop.
+  </Column>
+  <Column>
+    ### Right column
+
+    Use them for comparisons, pros and cons, or before and after examples.
+  </Column>
+</Columns>
+
+```mdx
+<Columns>
+  <Column>
+    ### Left column
+
+    Columns stack vertically on mobile and sit side by side on desktop.
+  </Column>
+  <Column>
+    ### Right column
+
+    Use them for comparisons, pros and cons, or before and after examples.
+  </Column>
+</Columns>
+```
+
+## Tabs
+
+<Tabs>
+  <Tab label="Bun">
+    ```bash
+    bun install
+    bun dev
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install
+    npm run dev
+    ```
+  </Tab>
+</Tabs>
+
+```mdx
+<Tabs>
+  <Tab label="Bun">
+    Install and run with Bun here.
+  </Tab>
+  <Tab label="npm">
+    Install and run with npm here.
+  </Tab>
+</Tabs>
+```
+
+## Accordions
+
+<Accordions>
+  <Accordion title="Do I need a database?">
+    No. Tsukuru reads `.mdx` files from the `posts/` folder, so there is
+    nothing to host besides static files.
+  </Accordion>
+  <Accordion title="Where do images go?" open={true}>
+    Put post images under `public/image/` and reference them from frontmatter.
+  </Accordion>
+</Accordions>
+
+```mdx
+<Accordions>
+  <Accordion title="Do I need a database?">
+    No. Tsukuru reads `.mdx` files from the `posts/` folder.
+  </Accordion>
+  <Accordion title="Where do images go?" open={true}>
+    Put post images under `public/image/`.
+  </Accordion>
+</Accordions>
+```
+
+## Mermaid
+
+<Mermaid chart="graph TD; A[Write MDX]-->B[Push to GitHub]; B-->C[Deploy static site];" />
+
+```mdx
+<Mermaid chart="graph TD; A[Write MDX]-->B[Push to GitHub]; B-->C[Deploy static site];" />
+```
+
+The chart can also be written as children content:
+
+<Mermaid>
+graph TD; A[Write MDX]-->B[Push to GitHub]; B-->C[Deploy static site];
+</Mermaid>
+
+```mdx
+<Mermaid>
+graph TD; A[Write MDX]-->B[Push to GitHub]; B-->C[Deploy static site];
+</Mermaid>
+```
+
+## Iframe
+
+<Iframe src="https://youtube.com/embed/dQw4w9WgXcQ" title="Example embed" />
+
+```mdx
+<Iframe src="https://youtube.com/embed/dQw4w9WgXcQ" title="Example embed" />
+<Iframe src="https://example.com" title="Square embed" ratio="1:1" />
+```

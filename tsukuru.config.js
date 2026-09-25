@@ -60,8 +60,8 @@ export const TsukuruConfig = {
     },
     description:
       "A highly customizable, aesthetic MDX blog template built with Next.js.",
-    url: "https://writes.yupibknpermen.my.id", // Set as origin public website
-    host: "writes.yupibknpermen.my.id", // Set as host public website
+    url: "https://blog.yupiipi.id", // Set as origin public website
+    host: "blog.yupiipi.id", // Set as host public website
     creator: "@ernestoyoofi", // Required, set your username or other something for SEO
     twittercreator: "@ernestoyoofi", // Optional, set blank string if you want
     googleverfication: "", // Optional: For google indexing

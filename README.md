@@ -1,7 +1,7 @@
 # Tsukuru
 
-> Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
+Article Engine for Github static page with Next.js
 
-A highly customizable, aesthetic MDX blog template built with Next.js.
+<!-- > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
 
-...This project unfinised right now
+Article Engine for Github static page with Next.js -->

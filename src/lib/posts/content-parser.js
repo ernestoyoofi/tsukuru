@@ -1,10 +1,42 @@
 import matter from "gray-matter";
+import readingTime from "reading-time";
+import { remark } from "remark";
+import strip from "strip-markdown";
 
 const RE_SLUG = /^[a-z0-9._-]+$/;
 const RE_CODELINK = /^[a-zA-Z0-9]+$/;
-const RE_AUTHOR_CHAR = /^[a-zA-Z0-9._\-@/:|]+$/;
+const RE_AUTHOR_CHAR = /^[a-zA-Z0-9._\-@/:|<>\s]+$/;
 const RE_TAG_CHAR = /^[a-zA-Z0-9._-]+$/;
 const RE_CATEGORY_CHAR = /^[a-zA-Z0-9._-]+$/;
+const RE_AUTHOR_PARSE = /^(@[^ ]+)\s*<([^/]+)\/([^>]+)>$/;
+const RE_MDX_IMPORT = /^import\s+.*$/gm;
+const RE_MDX_EXPORT = /^export\s+.*$/gm;
+const RE_MDX_TAG = /<[^>]+\/?>/g;
+
+const PLATFORM_PICTURE = {
+  github: (u) => `https://github.com/${u}.png`,
+  gitlab: (u) => `https://gitlab.com/${u}.png`,
+  bitbucket: (u) => `https://bitbucket.org/${u}/avatar.png`,
+  twitter: (u) => `https://unavatar.io/twitter/${u}`,
+  x: (u) => `https://unavatar.io/twitter/${u}`,
+};
+
+function parseAuthor(raw) {
+  const match = raw.match(RE_AUTHOR_PARSE);
+  if (!match) return { label: raw, pict: null };
+  const [, label, platform, username] = match;
+  const genPict = PLATFORM_PICTURE[platform.toLowerCase()];
+  return { label, pict: genPict ? genPict(username) : null };
+}
+
+async function stripMdxTags(str) {
+  const noMdx = str
+    .replace(RE_MDX_IMPORT, "")
+    .replace(RE_MDX_EXPORT, "")
+    .replace(RE_MDX_TAG, "");
+  const file = await remark().use(strip).process(noMdx);
+  return String(file).replace(/\s+/g, " ").trim();
+}
 
 function isValidDate(str) {
   if (typeof str !== "string") return false;
@@ -37,7 +69,7 @@ function validateRequiredString(value, name, minLen) {
   return null;
 }
 
-export default function ContentParser(strFileMDX = "", fileName = "") {
+export default async function ContentParser(strFileMDX = "", fileName = "") {
   const readerStr = String(strFileMDX).trim();
 
   if (!readerStr.startsWith("---")) {
@@ -84,6 +116,7 @@ export default function ContentParser(strFileMDX = "", fileName = "") {
     slug: null,
     codelink: null,
     draft: false,
+    reading_time: null,
   };
 
   if (data.author !== undefined && data.author !== null) {
@@ -91,18 +124,26 @@ export default function ContentParser(strFileMDX = "", fileName = "") {
       if (data.author.length < 2) {
         errors.push("author: string must have minimum length 2");
       } else if (!RE_AUTHOR_CHAR.test(data.author)) {
-        errors.push("author: string must only contain a-zA-Z0-9._-@/:|");
+        errors.push(
+          "author: string must only contain a-zA-Z0-9._-@/:|<> and spaces",
+        );
       } else {
-        meta.author = data.author;
+        meta.author = [parseAuthor(data.author)];
       }
     } else if (isValidStringArray(data.author)) {
+      const parsed = [];
+      let hasError = false;
       for (let i = 0; i < data.author.length; i++) {
         if (!RE_AUTHOR_CHAR.test(data.author[i])) {
-          errors.push("author: array items must only contain a-zA-Z0-9._-@/:|");
+          errors.push(
+            "author: array items must only contain a-zA-Z0-9._-@/:|<> and spaces",
+          );
+          hasError = true;
           break;
         }
+        parsed.push(parseAuthor(data.author[i]));
       }
-      if (errors.length === 0) meta.author = data.author;
+      if (!hasError) meta.author = parsed;
     } else {
       errors.push(
         "author: must be a string (min length 2) or array of strings",
@@ -179,6 +220,15 @@ export default function ContentParser(strFileMDX = "", fileName = "") {
   if (errors.length > 0) {
     return { unvalid: true, errors };
   }
+
+  const cleanContent = await stripMdxTags(trimmedContent);
+  const stats = readingTime(cleanContent);
+  meta.reading_time = {
+    text: stats.text,
+    minutes: stats.minutes,
+    words: stats.words,
+    time: stats.time,
+  };
 
   return { metadata: meta, content: trimmedContent };
 }
