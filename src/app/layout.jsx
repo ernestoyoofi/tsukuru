@@ -1,8 +1,11 @@
 import { Geist, JetBrains_Mono, Crimson_Text } from "next/font/google";
 import GenerateMetadata, { isMaintenance } from "../lib/metadata";
 import MaintenanceUIPage from "@/components/ui/Maintenance";
-import "./globals.css";
 import Header from "@/components/ui/Header";
+import "./globals.css";
+import GlobalRootClient from "./RootClient";
+import Footer from "@/components/ui/Footer";
+import loadConfig from "@/lib/load-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +30,14 @@ export async function generateMetadata() {
 
 export default async function RootLayout({ children }) {
   const isMaintenanceUI = await isMaintenance();
+  const loadConfigs = await loadConfig();
   const globalVariableFonts = `${crimsonText.variable} ${geistSans.variable} ${jetBrainsMono.variable} h-full antialiased`;
+
+  const basicMeta = {
+    title: loadConfigs?.metadata?.title?.default || "",
+    description: loadConfigs?.metadata?.description || "",
+    url: loadConfigs?.metadata?.url || "",
+  }
 
   if (isMaintenanceUI) {
     return (
@@ -42,8 +52,13 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={globalVariableFonts}>
       <body className="min-h-full flex flex-col">
-        <Header />
-        {children}
+        <GlobalRootClient>
+          <Header data={basicMeta}/>
+          <main className="w-full min-h-[calc(100dvh-50px)]">
+            {children}
+          </main>
+          <Footer data={basicMeta}/>
+        </GlobalRootClient>
       </body>
     </html>
   );

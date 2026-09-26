@@ -2,6 +2,49 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import mdxComponents from "@/components/mdx";
 import PreBlock from "@/components/ui/PreBlock";
 
+function getTextContent(node) {
+  if (typeof node.value === "string") return node.value;
+  return node.children?.map(getTextContent).join("") || "";
+}
+
+function rehypeHeadingData() {
+  return (tree) => {
+    const slugCounts = new Map();
+    const usedSlugs = new Set();
+
+    function visit(node) {
+      if (node.type === "element" && /^h[1-6]$/.test(node.tagName)) {
+        const slug = getTextContent(node)
+          .trim()
+          .toLowerCase()
+          .normalize("NFKD")
+          .replace(/\p{M}/gu, "")
+          .replace(/[^\p{L}\p{N}_\s-]/gu, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-");
+        const baseSlug = slug || "heading";
+        let suffix = slugCounts.get(baseSlug) || 0;
+        let uniqueSlug = suffix === 0 ? baseSlug : `${baseSlug}-${suffix}`;
+
+        while (usedSlugs.has(uniqueSlug)) {
+          suffix += 1;
+          uniqueSlug = `${baseSlug}-${suffix}`;
+        }
+
+        slugCounts.set(baseSlug, suffix + 1);
+        usedSlugs.add(uniqueSlug);
+        node.properties ||= {};
+        node.properties[`data-markdowncontent-header-${node.tagName}`] =
+          uniqueSlug;
+      }
+
+      for (const child of node.children || []) visit(child);
+    }
+
+    visit(tree);
+  };
+}
+
 const baseComponents = {
   h1: (props) => (
     <h1
@@ -83,6 +126,7 @@ export default function Reader({ content = "" }) {
     <MDXRemote
       source={content}
       components={{ ...baseComponents, ...mdxComponents }}
+      options={{ mdxOptions: { rehypePlugins: [rehypeHeadingData] } }}
     />
   );
 }

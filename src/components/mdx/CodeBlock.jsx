@@ -125,7 +125,7 @@ export default function MDX_Component_CodeBlock({
         <button
           type="button"
           onClick={onCopy}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98]"
+          className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98]"
         >
           {copied ? (
             <>
