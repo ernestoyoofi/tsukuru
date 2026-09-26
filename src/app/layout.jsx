@@ -37,7 +37,7 @@ export default async function RootLayout({ children }) {
     title: loadConfigs?.metadata?.title?.default || "",
     description: loadConfigs?.metadata?.description || "",
     url: loadConfigs?.metadata?.url || "",
-  }
+  };
 
   if (isMaintenanceUI) {
     return (
@@ -53,11 +53,9 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={globalVariableFonts}>
       <body className="min-h-full flex flex-col">
         <GlobalRootClient>
-          <Header data={basicMeta}/>
-          <main className="w-full min-h-[calc(100dvh-50px)]">
-            {children}
-          </main>
-          <Footer data={basicMeta}/>
+          <Header data={basicMeta} />
+          <main className="w-full min-h-[calc(100dvh-50px)]">{children}</main>
+          <Footer data={basicMeta} />
         </GlobalRootClient>
       </body>
     </html>

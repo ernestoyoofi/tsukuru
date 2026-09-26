@@ -9,7 +9,6 @@ export default function CardPost({
   descriptionclass = "",
 }) {
   const styleCard = String(forcestyle || data.cardtype || "basic");
-  console.log(data);
 
   if (styleCard === "no_image_cover") {
     return (
@@ -19,12 +18,12 @@ export default function CardPost({
         href={`/${data?.slug || "no-generate"}`}
       >
         <h3
-          className={cn("font-semibold text-xl mb-2", titleclass)}
+          className={cn("font-semibold text-xl mb-2 line-clamp-2", titleclass)}
           data-cardpost-title={data?.title || ""}
         >
           {data?.title || ""}
         </h3>
-        <p className={cn("text-neutral-600", descriptionclass)}>
+        <p className={cn("text-neutral-600 line-clamp-2", descriptionclass)}>
           {data?.description || "..."}
         </p>
       </Link>
@@ -34,6 +33,10 @@ export default function CardPost({
   return (
     <Link className="w-full" href={`/${data?.slug || "no-generate"}`}>
       <ThumbnailPost url={data?.image || ""} />
+      <div className="py-4">
+        <h3 className={cn("font-semibold text-xl mb-2 line-clamp-2", titleclass)}>{data?.title}</h3>
+        <p className={cn("text-neutral-600 line-clamp-2", descriptionclass)}>{data?.description}</p>
+      </div>
     </Link>
   );
 }

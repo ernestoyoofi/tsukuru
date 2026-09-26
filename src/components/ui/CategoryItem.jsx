@@ -12,7 +12,7 @@ export default function CategoryItem({ name = "", count = 0 }) {
         <span className="font-mono text-sm group-hover:underline duration-300">
           {nameSlug}
         </span>
-        <ArrowRight className="-ml-[8px] blur-xs opacity-0 rotate-12 group-hover:ml-1 group-hover:blur-none group-hover:opacity-100 group-hover:-rotate-45 duration-200" />
+        <ArrowRight className="-ml-[6px] blur-xs opacity-0 rotate-45 group-hover:ml-1 group-hover:blur-none group-hover:opacity-100 group-hover:-rotate-45 duration-200" />
       </div>
       <div className="flex items-center text-[0.8rem]">
         <span className="bg-neutral-100 group-hover:bg-blue-100 p-0.5 px-1 rounded-md duration-300 font-semibold">

@@ -16,14 +16,14 @@ export default async function Page_ReadArticle({ params }) {
   // Not Found Page
   if (!readInfo) notFound();
 
-  const configComments = await loadConfig().giscus;
+  const configComments = (await loadConfig()).giscus;
   const articleList = await Fn_GetListArticleCard({ limit: 11 });
   const categoriesList = await Fn_GetListCategories();
   const filteringArticleList = articleList.filter((a) => a.slug !== slug);
   const dataContentStructure = {
     recommend: {
-      categories: categoriesList.slice(0, 5),
-      list_top_posts: filteringArticleList.slice(0, 5),
+      categories: categoriesList.slice(0, 8),
+      list_top_posts: filteringArticleList.slice(0, 4),
     },
     metadata: readInfo.metadata,
     content: readInfo.content,
@@ -41,12 +41,12 @@ export async function generateMetadata({ params }) {
     return {};
   }
 
-  const matchJoiningConfig = await GenerateMetadata({
+  const joiningMetaConfig = await GenerateMetadata({
     title: readInfo.metadata.title || "",
     description: readInfo.metadata.description || "",
     image: readInfo.metadata.image || null,
   });
-  return matchJoiningConfig;
+  return joiningMetaConfig;
 }
 
 export async function generateStaticParams() {

@@ -1,6 +1,6 @@
 import Reader from "../ui/Reader";
 import ThumbnailPost from "../ui/ThumbnailPost";
-import { ArrowLeft, HourglassEnd } from "@gravity-ui/icons";
+import { ArrowLeft, HourglassEnd, Calendar } from "@gravity-ui/icons";
 import formatArticleDate from "@/lib/date-format";
 import CategoryItem from "../ui/CategoryItem";
 import CardPost from "../ui/CardPost";
@@ -11,13 +11,13 @@ export default function ReadingArticle({ data = {} }) {
   return (
     <div className="w-full max-w-7xl m-auto px-6 flex flex-wrap justify-between">
       <div className="w-full xl:w-[calc(100%-400px)] pb-5 pt-3">
-        <Link href="/" className="text-sm font-mono inline-flex items-center py-2 text-neutral-600 mb-4">
-          <ArrowLeft className="mr-2" width={14} height={14}/>
-          <span className="text-sm">Back</span>
+        <Link
+          href="/"
+          className="text-sm font-mono inline-flex items-center py-2 text-neutral-600"
+        >
+          <ArrowLeft className="mr-2" width={14} height={14} />
+          <span className="text-sm">Back Home</span>
         </Link>
-        <div className="w-full text-sm text-neutral-500">
-          <p>{formatArticleDate(data?.metadata?.date)}</p>
-        </div>
         <h1
           data-section="title"
           className="font-semibold text-xl md:text-3xl my-4"
@@ -26,16 +26,20 @@ export default function ReadingArticle({ data = {} }) {
         </h1>
         <div
           data-section="box-info"
-          className="flex items-center text-sm text-neutral-500"
+          className="flex items-center gap-4 text-sm text-neutral-500"
         >
           <div
             className="flex items-center"
             title={data?.metadata?.reading_time?.text || "Not A Time Format"}
           >
-            <HourglassEnd width={18} height={18} className="rotate-6" />
-            <span className="ml-1">
+            <HourglassEnd width={14} height={14} className="rotate-6" />
+            <span className="ml-2">
               {data?.metadata?.reading_time?.text || "NaTF"}
             </span>
+          </div>
+          <div className="flex items-center">
+            <Calendar width={14} height={14} className="rotate-2"/>
+            <span className="ml-2">{formatArticleDate(data?.metadata?.date)}</span>
           </div>
         </div>
         <ThumbnailPost className="mt-4" url={data?.metadata?.image || ""} />
