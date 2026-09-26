@@ -10,6 +10,16 @@ async function parseAllPosts() {
   );
 
   detectDuplicateSlugs(posts);
+  posts.sort((a, b) => {
+    const dateA = Date.parse(a.metadata?.date);
+    const dateB = Date.parse(b.metadata?.date);
+    const validA = Number.isFinite(dateA);
+    const validB = Number.isFinite(dateB);
+
+    if (validA !== validB) return validA ? -1 : 1;
+    if (!validA) return 0;
+    return dateB - dateA;
+  });
 
   return posts.map((post) => ({
     ...post,
