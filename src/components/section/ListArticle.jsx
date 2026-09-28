@@ -6,7 +6,9 @@ export default function ListArticle({ data = {}, tag = "", heading = "" }) {
     <div className="w-full max-w-7xl m-auto">
       <div className="w-full px-6 p-4 capitalize">
         {String(tag || "")?.trim() && (
-          <span className="w-full block mb-1 uppercase font-mono text-[0.7rem] text-neutral-600">{String(tag)}</span>
+          <span className="w-full block mb-1 uppercase font-mono text-[0.7rem] text-neutral-600">
+            {String(tag)}
+          </span>
         )}
         <b className="font-semibold text-3xl w-full block">
           {String(heading || "Posts")}

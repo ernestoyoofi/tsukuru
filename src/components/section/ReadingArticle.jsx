@@ -38,8 +38,10 @@ export default function ReadingArticle({ data = {} }) {
             </span>
           </div>
           <div className="flex items-center">
-            <Calendar width={14} height={14} className="rotate-2"/>
-            <span className="ml-2">{formatArticleDate(data?.metadata?.date)}</span>
+            <Calendar width={14} height={14} className="rotate-2" />
+            <span className="ml-2">
+              {formatArticleDate(data?.metadata?.date)}
+            </span>
           </div>
         </div>
         <ThumbnailPost className="mt-4" url={data?.metadata?.image || ""} />

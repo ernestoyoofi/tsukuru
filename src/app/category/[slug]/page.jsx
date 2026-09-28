@@ -7,7 +7,10 @@ import GenerateMetadata from "@/lib/metadata";
 
 export default async function Page_ListArticle_ByCategory({ params }) {
   const { slug } = await params;
-  const getLists = await Fn_GetListArticleCard({ filter_by: "category", filter_value: String(slug) });
+  const getLists = await Fn_GetListArticleCard({
+    filter_by: "category",
+    filter_value: String(slug),
+  });
 
   return <ListArticle data={getLists} tag="category" heading={String(slug)} />;
 }

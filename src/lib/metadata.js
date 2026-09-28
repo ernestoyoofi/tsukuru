@@ -69,7 +69,7 @@ export default async function GenerateMetadata({
     if (configuredUrl) {
       try {
         basicMetadata.metadataBase = new URL(configuredUrl);
-        basicMetadata.alternates = { canonical: configuredUrl };
+        // basicMetadata.alternates = { canonical: configuredUrl };
         basicMetadata.openGraph.url = configuredUrl;
       } catch (_er) {
         console.warn("[WARN] Tsukuru metadata URL is invalid and was ignored.");

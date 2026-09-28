@@ -34,8 +34,14 @@ export default function CardPost({
     <Link className="w-full" href={`/${data?.slug || "no-generate"}`}>
       <ThumbnailPost url={data?.image || ""} />
       <div className="py-4">
-        <h3 className={cn("font-semibold text-xl mb-2 line-clamp-2", titleclass)}>{data?.title}</h3>
-        <p className={cn("text-neutral-600 line-clamp-2", descriptionclass)}>{data?.description}</p>
+        <h3
+          className={cn("font-semibold text-xl mb-2 line-clamp-2", titleclass)}
+        >
+          {data?.title}
+        </h3>
+        <p className={cn("text-neutral-600 line-clamp-2", descriptionclass)}>
+          {data?.description}
+        </p>
       </div>
     </Link>
   );
