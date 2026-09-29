@@ -48,10 +48,10 @@ export default function Footer({ data = {} }) {
                   >
                     <span className="text-sm">{items.label}</span>
                     <div className="w-[16px] min-w-[16px] ml-2 flex items-center">
-                      <span className="-ml-[16px] opacity-0 blur-sm group-hover:opacity-100 group-hover:ml-0 group-hover:blur-none duration-400">
+                      <span className="rotate-180 -ml-[16px] opacity-0 blur-sm group-hover:rotate-0 group-hover:opacity-100 group-hover:ml-0 group-hover:blur-none duration-400">
                         <ArrowUpRight />
                       </span>
-                      <span className="ml-0 opacity-100 blur-none group-hover:opacity-0 group-hover:ml-[16px] group-hover:blur-sm duration-400">
+                      <span className="ml-0 opacity-100 blur-none group-hover:opacity-0 hover:rotate-90 group-hover:ml-[16px] group-hover:blur-sm duration-400">
                         {items.icon}
                       </span>
                     </div>
@@ -61,8 +61,17 @@ export default function Footer({ data = {} }) {
             </ul>
           </div>
         </div>
-        <div className="w-full bg-neutral-100 p-4 text-center text-[0.8rem]">
-          <p className="text-center text-neutral-400">{`© 2024 - ${new Date().getFullYear()} Ernestoyoofi.`}</p>
+        <div className="w-full bg-neutral-100 p-4 text-center text-[0.8rem] select-none">
+          <p className="text-center text-neutral-400">
+            {`© 2024 - ${new Date().getFullYear()} Ernestoyoofi.`}
+            <a
+              className="ml-1 hover:text-blue-500 hover:underline duration-300"
+              href="https://github.com/ernestoyoofi/tsukuru"
+              target="_blank"
+            >
+              • Tsukuru Engine
+            </a>
+          </p>
         </div>
       </footer>
     </>

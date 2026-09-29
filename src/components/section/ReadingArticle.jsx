@@ -50,7 +50,7 @@ export default function ReadingArticle({ data = {} }) {
         <div className="mt-9 mb-4 border-b border-dashed border-neutral-300" />
         <Comment data={data?.giscus || {}} />
       </div>
-      <div className="self-start sticky top-[66px] left-0 w-full md:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 xl:border-l border-neutral-300 py-3 overflow-y-auto overflow-x-hidden">
+      <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 xl:border-l border-neutral-300 py-3 overflow-y-auto overflow-x-hidden">
         {/* <h4 className="font-semibold mb-3">
           <span className="mr-1 font-bold text-blue-400 underline">#</span>On
           This Page

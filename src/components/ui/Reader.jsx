@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import mdxComponents from "@/components/mdx";
 import PreBlock from "@/components/ui/PreBlock";
+import remarkGfm from "remark-gfm";
 
 function getTextContent(node) {
   if (typeof node.value === "string") return node.value;
@@ -126,7 +127,12 @@ export default function Reader({ content = "" }) {
     <MDXRemote
       source={content}
       components={{ ...baseComponents, ...mdxComponents }}
-      options={{ mdxOptions: { rehypePlugins: [rehypeHeadingData] } }}
+      options={{
+        mdxOptions: {
+          rehypePlugins: [rehypeHeadingData],
+          remarkPlugins: [remarkGfm],
+        },
+      }}
     />
   );
 }

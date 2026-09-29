@@ -37,6 +37,8 @@ export default async function RootLayout({ children }) {
     title: loadConfigs?.metadata?.title?.default || "",
     description: loadConfigs?.metadata?.description || "",
     url: loadConfigs?.metadata?.url || "",
+    creator: loadConfigs?.metadata?.creator || "",
+    from_year: "2024",
   };
 
   if (isMaintenanceUI) {
