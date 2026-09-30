@@ -24,7 +24,7 @@ tsukuru/
 
 - [x] Search feature with `minisearch`
 - [ ] Detailing indexing google & SEO
-- [ ] Add information image cannot be fetch
+- [x] Add information image cannot be fetch
 - [ ] Create script init for installer
 - [ ] More configuration for link footer, copyright info and specifict description
 - [ ] More configuration for costumization svg/png/jpg for icon header & footer

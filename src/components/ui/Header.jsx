@@ -86,7 +86,7 @@ export default function Header({ data = {} }) {
           opacity: opensearchbox ? 1 : 0,
           pointerEvents: opensearchbox ? "auto" : "none",
         }}
-        className="fixed top-0 left-0 w-full h-dvh bg-neutral-600/60 backdrop-blur-sm z-102 pt-14"
+        className="fixed top-0 left-0 w-full h-dvh bg-black/70 backdrop-blur-[2px] z-102 pt-14"
         transition={{ duration: 0.2, ease: "circIn" }}
         onPointerDown={(e) => {
           if (e.target === e.currentTarget) {
@@ -99,11 +99,11 @@ export default function Header({ data = {} }) {
             ref={searchPanelRef}
             initial={{
               opacity: 0,
-              scale: 0.8,
+              scale: 0.95,
             }}
             animate={{
               opacity: opensearchbox ? 1 : 0,
-              scale: opensearchbox ? 1 : 0.8,
+              scale: opensearchbox ? 1 : 0.95,
               filter: opensearchbox ? "blur(0px)" : "blur(8px)",
             }}
             transition={{
@@ -139,15 +139,15 @@ export default function Header({ data = {} }) {
             />
           </motion.div>
           <motion.div
+            layout="size"
             initial={{
               opacity: 0,
-              scale: 0.9,
+              y: -8,
             }}
             animate={{
               opacity: opensearchbox ? 1 : 0,
-              scale: opensearchbox ? 1 : 0.9,
+              y: opensearchbox ? 0 : -8,
               filter: opensearchbox ? "blur(0px)" : "blur(8px)",
-              height: "auto",
             }}
             transition={{
               type: "spring",
@@ -155,11 +155,13 @@ export default function Header({ data = {} }) {
               damping: 20,
               duration: 0.001,
               delay: 0.05,
+              layout: { duration: 0.25, ease: "easeInOut" },
             }}
-            className="mt-6 bg-white shadow-md rounded-xl anchored-top-center p-2 px-4"
+            className="mt-6 max-h-[calc(100dvh-240px)] bg-white shadow-md rounded-xl anchored-top-center p-2 px-4 overflow-hidden overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ borderRadius: 12 }}
           >
             {!resultsSearch[0] && (
-              <div className="w-full py-6">
+              <motion.div layout className="w-full py-6">
                 <p className="text-center w-full text-neutral-600 text-sm">
                   {!minisearch
                     ? "Data not fetched..."
@@ -167,12 +169,13 @@ export default function Header({ data = {} }) {
                       ? "Try search data..."
                       : `No match for "${searchQueryDef}"`}
                 </p>
-              </div>
+              </motion.div>
             )}
             {resultsSearch.map((items, key) => (
-              <div
+              <motion.div
+                layout
                 className={cn(
-                  "w-full border-dashed border-neutral-300",
+                  "w-full border-dashed border-neutral-300 hover:text-blue-600 duration-300",
                   key === 0 ? "" : "mt-1 pt-1 border-t",
                 )}
                 key={key}
@@ -182,24 +185,12 @@ export default function Header({ data = {} }) {
               >
                 <CardPost
                   data={items}
-                  forcestyle="no_image_cover"
+                  forcestyle="small_cover"
                   titleclass="text-base mb-1"
                   descriptionclass="text-sm"
                 />
-              </div>
+              </motion.div>
             ))}
-            {/* <div className="w-full h-full flex items-center justify-center flex-col p-6">
-              <img
-                width={80}
-                height={80}
-                src="https://i.pinimg.com/736x/29/c8/15/29c8153e7056355f37bdddee3d4aae01.jpg"
-                alt="Image"
-              />
-              <p className="text-center mt-4 text-sm text-neutral-600">
-                The search feature is currently unavailable, please check back
-                for future updates.
-              </p>
-            </div> */}
           </motion.div>
         </div>
       </motion.div>

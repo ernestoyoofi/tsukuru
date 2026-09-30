@@ -14,13 +14,13 @@ export default function ListArticle({ data = {}, tag = "", heading = "" }) {
           {String(heading || "Posts")}
         </b>
       </div>
-      <div className="w-full flex flex-wrap px-3">
+      <div className="w-full flex flex-wrap px-6">
         {data?.map((items, i) => (
           <div
             key={i}
             className={cn(
-              "w-full md:w-[calc(100%/2)] p-3 px-3 border-t border-dashed border-neutral-300",
-              i % 2 === 0 ? "md:border-r" : "",
+              "w-full md:w-[calc(100%/2)] p-3 px-0 border-t border-dashed border-neutral-300",
+              i % 2 === 0 ? "md:pr-3 md:border-r" : "md:pl-3",
             )}
           >
             <CardPost data={items} />

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function ThumbnailPost({
   url = "",
@@ -10,8 +10,15 @@ export default function ThumbnailPost({
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isError, setError] = useState(false);
+  const imageRef = useRef(null);
 
   const imageSrc = url || "/image/default-img.webp";
+
+  useEffect(() => {
+    if (!!imageRef.current && !!imageRef.current?.complete) {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <div
@@ -37,6 +44,7 @@ export default function ThumbnailPost({
 
       {/* Native Image Element */}
       <img
+        ref={imageRef}
         width={1920}
         height={1080}
         className={cn(
