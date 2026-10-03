@@ -50,20 +50,23 @@ export default function ReadingArticle({ data = {} }) {
         <div className="mt-9 mb-4 border-b border-dashed border-neutral-300" />
         <Comment data={data?.giscus || {}} />
       </div>
-      <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 xl:border-l border-neutral-300 py-3 overflow-y-auto overflow-x-hidden">
+      <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 py-3 overflow-y-auto overflow-x-hidden">
+        {/* <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 xl:border-l border-neutral-300 py-3 overflow-y-auto overflow-x-hidden"> */}
         {/* <h4 className="font-semibold mb-3">
           <span className="mr-1 font-bold text-blue-400 underline">#</span>On
           This Page
         </h4>
         <div className="w-full border-t border-dashed border-neutral-300"></div> */}
-        <h4 className="font-semibold my-3">
+        <h4 className="font-semibold my-2">
           <span className="mr-1 font-bold text-blue-400 underline">#</span>
           Latest Posts
         </h4>
-        <div className="w-full border-t border-dashed border-neutral-300">
+        <div className="w-full">
+          {/* <div className="w-full border-t border-dashed border-neutral-300"> */}
           {data?.recommend?.list_top_posts?.map((data, i) => (
             <div
-              className="w-full border-b border-dashed border-neutral-300"
+              className="w-full"
+              // className="w-full border-b border-dashed border-neutral-300"
               key={i}
             >
               <CardPost
@@ -75,11 +78,12 @@ export default function ReadingArticle({ data = {} }) {
             </div>
           ))}
         </div>
-        <h4 className="font-semibold my-3">
+        <h4 className="font-semibold my-2">
           <span className="mr-1 font-bold text-blue-400 underline">#</span>
           Categories
         </h4>
-        <div className="w-full border-t border-dashed border-neutral-300">
+        <div className="w-full">
+          {/* <div className="w-full border-t border-dashed border-neutral-300"> */}
           {data?.recommend?.categories?.map((items, i) => (
             <CategoryItem {...items} key={i} />
           ))}

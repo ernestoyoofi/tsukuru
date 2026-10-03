@@ -6,7 +6,8 @@ export default function CategoryItem({ name = "", count = 0 }) {
   return (
     <Link
       href={`/category/${nameSlug}`}
-      className="w-full flex items-center justify-between py-1 border-b border-dashed border-neutral-300 group hover:text-blue-500 overflow-hidden"
+      className="w-full flex items-center justify-between py-1 group hover:text-blue-500 overflow-hidden"
+      // className="w-full flex items-center justify-between py-1 border-b border-dashed border-neutral-300 group hover:text-blue-500 overflow-hidden"
     >
       <div className="flex items-center">
         <span className="font-mono text-sm group-hover:underline duration-300">

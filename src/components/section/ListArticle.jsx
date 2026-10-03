@@ -19,9 +19,13 @@ export default function ListArticle({ data = {}, tag = "", heading = "" }) {
           <div
             key={i}
             className={cn(
-              "w-full md:w-[calc(100%/2)] p-3 px-0 border-t border-dashed border-neutral-300",
-              i % 2 === 0 ? "md:pr-3 md:border-r" : "md:pl-3",
+              "w-full md:w-[calc(100%/2)] p-2 px-0",
+              i % 2 === 0 ? "md:pr-2" : "md:pl-2",
             )}
+            // className={cn(
+            //   "w-full md:w-[calc(100%/2)] p-3 px-0 border-t border-dashed border-neutral-300",
+            //   i % 2 === 0 ? "md:pr-3 md:border-r" : "md:pl-3",
+            // )}
           >
             <CardPost data={items} />
           </div>

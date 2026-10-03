@@ -54,10 +54,7 @@ const baseComponents = {
     />
   ),
   h2: (props) => (
-    <h2
-      className="mt-8 border-b border-zinc-200 pb-2 text-2xl font-bold tracking-tight"
-      {...props}
-    />
+    <h2 className="mt-8 pb-2 text-2xl font-bold tracking-tight" {...props} />
   ),
   h3: (props) => <h3 className="mt-6 text-xl font-semibold" {...props} />,
   h4: (props) => <h4 className="mt-5 text-lg font-semibold" {...props} />,
