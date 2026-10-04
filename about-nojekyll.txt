@@ -1,0 +1,1 @@
+.nojekyll for static page next.js building
