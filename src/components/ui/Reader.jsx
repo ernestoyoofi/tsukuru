@@ -1,7 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import mdxComponents from "@/components/mdx";
 import PreBlock from "@/components/ui/PreBlock";
-import remarkGfm from "remark-gfm";
+import { cn } from "@/lib/cn";
 
 function getTextContent(node) {
   if (typeof node.value === "string") return node.value;
@@ -72,9 +73,43 @@ const baseComponents = {
       {...props}
     />
   ),
-  ul: (props) => <ul className="mt-4 list-disc space-y-2 pl-6" {...props} />,
-  ol: (props) => <ol className="mt-4 list-decimal space-y-2 pl-6" {...props} />,
-  li: (props) => <li className="leading-7 text-zinc-950" {...props} />,
+  ul: ({ className, ...props }) => (
+    <ul
+      {...props}
+      className={cn(
+        "mt-4 space-y-2",
+        className?.includes("contains-task-list")
+          ? "list-none pl-0"
+          : "list-disc pl-6",
+        className,
+      )}
+    />
+  ),
+  ol: ({ className, ...props }) => (
+    <ol
+      {...props}
+      className={cn("mt-4 list-decimal space-y-2 pl-6", className)}
+    />
+  ),
+  li: ({ className, ...props }) => (
+    <li
+      {...props}
+      className={cn(
+        "leading-6 text-zinc-950",
+        className?.includes("task-list-item") && "list-none",
+        className,
+      )}
+    />
+  ),
+  input: ({ className, ...props }) => (
+    <input
+      {...props}
+      className={cn(
+        "mr-2 align-middle accent-sky-600 disabled:cursor-default",
+        className,
+      )}
+    />
+  ),
   blockquote: (props) => (
     <blockquote
       className="mt-4 border-l-4 border-zinc-300 pl-4 italic text-zinc-700"

@@ -1,4 +1,3 @@
-import { cn } from "@/lib/cn";
 import CardPost from "../ui/CardPost";
 
 export default function ListArticle({ data = {}, tag = "", heading = "" }) {
@@ -14,18 +13,11 @@ export default function ListArticle({ data = {}, tag = "", heading = "" }) {
           {String(heading || "Posts")}
         </b>
       </div>
-      <div className="w-full flex flex-wrap px-6">
+      <div className="w-full flex flex-wrap px-4">
         {data?.map((items, i) => (
           <div
-            key={i}
-            className={cn(
-              "w-full md:w-[calc(100%/2)] p-2 px-0",
-              i % 2 === 0 ? "md:pr-2" : "md:pl-2",
-            )}
-            // className={cn(
-            //   "w-full md:w-[calc(100%/2)] p-3 px-0 border-t border-dashed border-neutral-300",
-            //   i % 2 === 0 ? "md:pr-3 md:border-r" : "md:pl-3",
-            // )}
+            key={`${items.slug}-${i}`}
+            className="w-full sm:w-[50%] xl:w-[calc(100%/3)] p-2 px-2"
           >
             <CardPost data={items} />
           </div>

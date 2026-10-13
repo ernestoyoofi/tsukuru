@@ -1,0 +1,178 @@
+---
+image: "https://picsum.photos/id/180/800/350.webp"
+title: "Getting Started with React: Building Interfaces with Components"
+description: "Learn the basics of React, from components and props to state, events, and lists through practical examples."
+date: "2026-10-13T07:17:00.000Z"
+author: ["@ernestoyoofi <github/ernestoyoofi>"]
+tags: ["Development", "React", "JavaScript", "Tutorial"]
+category: "tutorial"
+slug: "getting-started-with-react"
+draft: false
+---
+
+React is a JavaScript library for building user interfaces. It helps us break a page into small, reusable pieces, such as a header, button, article card, or form.
+
+In this article, we'll explore React's basic concepts through small examples. The goal is not to memorize APIs, but to understand how to build a UI from components and data.
+
+## What Is a Component?
+
+A component is a JavaScript function that returns a view. React component names usually start with a capital letter.
+
+```jsx
+function Greeting() {
+  return <h1>Hello, developer!</h1>;
+}
+```
+
+Components can be used just like HTML elements:
+
+```jsx
+function App() {
+  return (
+    <main>
+      <Greeting />
+      <p>Welcome to your first app.</p>
+    </main>
+  );
+}
+```
+
+Breaking a UI into components makes each piece easier to understand, test, and reuse.
+
+## JSX: Writing UI in JavaScript
+
+The HTML-like syntax in the examples is called JSX. It makes UI structure feel familiar while letting us use JavaScript expressions inside curly braces.
+
+```jsx
+function Greeting() {
+  const name = "Alex";
+
+  return <h1>Hello, {name}!</h1>;
+}
+```
+
+Expressions inside `{}` can be variables, function calls, or calculations:
+
+```jsx
+const unreadCount = 3;
+
+function InboxSummary() {
+  return <p>You have {unreadCount} unread messages.</p>;
+}
+```
+
+Keep in mind that JSX is not exactly HTML. For example, use `className` for CSS classes and close elements that do not have a matching tag, such as `<img />`.
+
+## Passing Data with Props
+
+Props are values passed from a parent component to a child component. Think of them as function arguments.
+
+```jsx
+function Welcome({ name }) {
+  return <p>Welcome, {name}!</p>;
+}
+
+function App() {
+  return <Welcome name="Alex" />;
+}
+```
+
+`Welcome` receives `name` and uses it to decide which text to display. An article card, for example, can receive a title and summary through props so the same component can display many articles.
+
+```jsx
+function ArticleCard({ title, description }) {
+  return (
+    <article>
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </article>
+  );
+}
+```
+
+## Managing Changing Data with State
+
+Not all data is static. A UI may need to respond to interactions, such as button clicks or form input. React provides state for data that changes and affects what is displayed.
+
+The following example creates a simple counter:
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <section>
+      <p>Click count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Add one
+      </button>
+    </section>
+  );
+}
+```
+
+`useState(0)` creates state with an initial value of `0`. React gives us two things: the current state value (`count`) and a function to update it (`setCount`). When the update function is called, React re-renders the component with the latest value.
+
+Use state for data that actually changes over time. A value that can be calculated from props or other variables usually does not need to be stored as separate state.
+
+## Handling Events
+
+Events such as button clicks are written using JSX props like `onClick`. Pass a function as the handler instead of calling it during render.
+
+```jsx
+function SaveButton() {
+  function handleSave() {
+    console.log("Changes saved");
+  }
+
+  return <button onClick={handleSave}>Save</button>;
+}
+```
+
+This pattern separates what is displayed from what should happen when a user interacts with it.
+
+## Rendering a List of Data
+
+To display a collection of data, we can turn an array into elements using `map`.
+
+```jsx
+const topics = ["Components", "Props", "State"];
+
+function TopicList() {
+  return (
+    <ul>
+      {topics.map((topic) => (
+        <li key={topic}>{topic}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Each item in a list needs a stable, unique `key`. React uses it to identify items when the list changes. When available, use an ID from your data instead of the array index.
+
+## Thinking in React
+
+When building a page, we can follow a few simple steps:
+
+1. Break the design into components with clear responsibilities.
+2. Decide what data each component needs to receive through props.
+3. Identify data that changes through interaction and make it state.
+4. Connect user interactions to event handlers.
+5. Render collections with `map` and stable `key` values.
+
+For example, a product catalog page could have a `ProductList` component that receives a list of products and renders several `ProductCard` components. A favorite button on each card could update state to show whether that product is a favorite.
+
+<Callout type="info" title="Start simple">
+  You don't need global state or a collection of extra libraries right away.
+  Start with components and props, then add state when you have a real
+  interaction to support.
+</Callout>
+
+## Conclusion
+
+React's foundation rests on a few ideas: components build the UI, props pass data, state stores changing data, and events connect the interface to user interactions.
+
+Once you understand these basics, try building a small component such as a button, profile card, or to-do list. A simple project is a great way to see how React concepts work together.

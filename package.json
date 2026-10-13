@@ -1,6 +1,6 @@
 {
   "name": "tsukuru",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
@@ -9,18 +9,20 @@
     "lint": "biome check",
     "format": "biome format --write"
   },
+  "overrides": {
+    "mermaid>katex": "0.18.2"
+  },
   "dependencies": {
     "@giscus/react": "^3.1.0",
-    "@gravity-ui/icons": "^2.22.0",
+    "@gravity-ui/icons": "^2.22.1",
     "@toolwind/anchors": "^1.0.10",
     "clsx": "^2.1.1",
     "cose-base": "^2.2.0",
-    "framer-motion": "^13.2.0",
-    "gray-matter": "^4.0.3",
+    "framer-motion": "^13.5.1",
     "lenis": "^1.3.26",
     "mermaid": "^11.17.2",
     "minisearch": "^7.2.0",
-    "next": "16.3.2",
+    "next": "16.3.8",
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -32,14 +34,16 @@
     "strip-markdown": "^6.0.0",
     "tailwind-merge": "^3.7.0",
     "unified": "^11.0.5",
-    "zod": "^4.4.3",
+    "vfile": "^6.0.3",
+    "vfile-matter": "^5.0.1",
+    "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.2",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.3.3",
     "lightningcss-linux-x64-gnu": "^1.33.0",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.3.3"
   },
   "packageManager": "bun@1.3.14",
   "ignoreScripts": [

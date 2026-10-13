@@ -2,9 +2,9 @@ import MDX_Component_Accordions, { Accordion } from "./Accordions";
 import MDX_Component_Badge from "./Badge";
 import MDX_Component_Callout from "./Callout";
 import MDX_Component_Cards, { Card } from "./Cards";
+import MDX_Component_CodeBlock from "./CodeBlock";
 import MDX_Component_Columns, { Column } from "./Columns";
 import MDX_Component_Iframe from "./Iframe";
-import MDX_Component_CodeBlock from "./CodeBlock";
 import MDX_Component_Mermaid from "./MermaidClient";
 import MDX_Component_Tabs, { Tab } from "./Tabs";
 

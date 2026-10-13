@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { toast } from "sonner";
 import MiniSearch from "minisearch";
+import { toast } from "sonner";
+import { create } from "zustand";
 
 const globalPath = `/minisearch-feature/indexing.json`;
 

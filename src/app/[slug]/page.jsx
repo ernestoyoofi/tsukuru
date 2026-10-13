@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
+import ReadingArticle from "@/components/section/ReadingArticle";
+import loadConfig from "@/lib/load-config";
 import GenerateMetadata from "@/lib/metadata";
 import {
   Fn_GetContentArticles,
-  Fn_GetListSlugArticles,
   Fn_GetListArticleCard,
   Fn_GetListCategories,
+  Fn_GetListSlugArticles,
 } from "@/lib/posts/globals";
-import ReadingArticle from "@/components/section/ReadingArticle";
-import loadConfig from "@/lib/load-config";
 
 export default async function Page_ReadArticle({ params }) {
   const { slug } = await params;
@@ -22,8 +22,8 @@ export default async function Page_ReadArticle({ params }) {
   const filteringArticleList = articleList.filter((a) => a.slug !== slug);
   const dataContentStructure = {
     recommend: {
-      categories: categoriesList.slice(0, 8),
-      list_top_posts: filteringArticleList.slice(0, 4),
+      categories: categoriesList.slice(0, 10),
+      list_top_posts: filteringArticleList.slice(0, 3),
     },
     metadata: readInfo.metadata,
     content: readInfo.content,

@@ -1,11 +1,11 @@
+import { ArrowLeft, Calendar, HourglassEnd } from "@gravity-ui/icons";
+import Link from "next/link";
+import formatArticleDate from "@/lib/date-format";
+import CardPost from "../ui/CardPost";
+import CategoryItem from "../ui/CategoryItem";
+import Comment from "../ui/Comment";
 import Reader from "../ui/Reader";
 import ThumbnailPost from "../ui/ThumbnailPost";
-import { ArrowLeft, HourglassEnd, Calendar } from "@gravity-ui/icons";
-import formatArticleDate from "@/lib/date-format";
-import CategoryItem from "../ui/CategoryItem";
-import CardPost from "../ui/CardPost";
-import Comment from "../ui/Comment";
-import Link from "next/link";
 
 export default function ReadingArticle({ data = {} }) {
   return (
@@ -50,7 +50,7 @@ export default function ReadingArticle({ data = {} }) {
         <div className="mt-9 mb-4 border-b border-dashed border-neutral-300" />
         <Comment data={data?.giscus || {}} />
       </div>
-      <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 py-3 overflow-y-auto overflow-x-hidden">
+      <div className="self-start sticky top-16.5 left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-97.5 xl:border-dashed xl:pl-3 py-3 overflow-y-auto overflow-x-hidden">
         {/* <div className="self-start sticky top-[66px] left-0 w-full xl:h-[calc(100dvh-80px)] xl:w-[390px] xl:border-dashed xl:pl-3 xl:border-l border-neutral-300 py-3 overflow-y-auto overflow-x-hidden"> */}
         {/* <h4 className="font-semibold mb-3">
           <span className="mr-1 font-bold text-blue-400 underline">#</span>On
@@ -63,11 +63,11 @@ export default function ReadingArticle({ data = {} }) {
         </h4>
         <div className="w-full">
           {/* <div className="w-full border-t border-dashed border-neutral-300"> */}
-          {data?.recommend?.list_top_posts?.map((data, i) => (
+          {data?.recommend?.list_top_posts?.map((data) => (
             <div
               className="w-full"
               // className="w-full border-b border-dashed border-neutral-300"
-              key={i}
+              key={data.slug}
             >
               <CardPost
                 data={data}
@@ -84,8 +84,8 @@ export default function ReadingArticle({ data = {} }) {
         </h4>
         <div className="w-full">
           {/* <div className="w-full border-t border-dashed border-neutral-300"> */}
-          {data?.recommend?.categories?.map((items, i) => (
-            <CategoryItem {...items} key={i} />
+          {data?.recommend?.categories?.map((items) => (
+            <CategoryItem {...items} key={items.name} />
           ))}
         </div>
       </div>

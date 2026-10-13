@@ -1,7 +1,8 @@
-import matter from "gray-matter";
 import readingTime from "reading-time";
 import { remark } from "remark";
 import strip from "strip-markdown";
+import { VFile } from "vfile";
+import { matter as parseMatter } from "vfile-matter";
 
 const RE_SLUG = /^[a-z0-9._-]+$/;
 const RE_CODELINK = /^[a-zA-Z0-9]+$/;
@@ -78,7 +79,10 @@ export default async function ContentParser(strFileMDX = "", fileName = "") {
 
   let data, content;
   try {
-    ({ data, content } = matter(readerStr));
+    const file = new VFile(readerStr);
+    parseMatter(file, { strip: true });
+    data = file.data.matter;
+    content = String(file);
   } catch (e) {
     return { unvalid: true, error: `Frontmatter parse error: ${e.message}` };
   }

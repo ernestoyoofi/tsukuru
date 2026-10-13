@@ -9,7 +9,7 @@ export default async function sitemap() {
 
   const listArticle = await Fn_GetListArticleCard({ limit: 60 }); // Get Article
 
-  const contentArticle = listArticle.map((items, key) => ({
+  const contentArticle = listArticle.map((items) => ({
     url: new URL(`/${items.slug}`, urlOrigin).toString(),
     lastModified: new Date(items.date),
     changeFrequency: "weekly",

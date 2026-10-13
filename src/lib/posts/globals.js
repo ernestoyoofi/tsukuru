@@ -1,6 +1,6 @@
+import loadConfig from "../load-config";
 import ContentParser from "./content-parser";
 import { readAllArticle } from "./read-dir";
-import loadConfig from "../load-config";
 
 async function parseAllPosts() {
   const { base: baseMeta = {} } = await loadConfig();

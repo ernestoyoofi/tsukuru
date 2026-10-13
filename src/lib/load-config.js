@@ -25,10 +25,12 @@ const defaultTsukuruConfig = {
   },
   giscus: {},
   categories: {},
+  footer: {},
 };
 
 const stylecards = ["basic", "full_cover", "no_image_cover"];
 const analyticsTypes = ["none", "google", "umami", "plausible", "matomo"];
+const footerTitleTypes = ["text", "image", "both"];
 
 const isObject = (value) =>
   value !== null && typeof value === "object" && !Array.isArray(value);
@@ -196,6 +198,89 @@ function normalizeCategories(configCategories) {
   return categories;
 }
 
+function normalizeFooterLink(link, path) {
+  if (link === undefined) return {};
+  if (!isObject(link)) {
+    warnInvalid(path);
+    return {};
+  }
+
+  if (
+    typeof link.label !== "string" ||
+    !link.label.trim() ||
+    !Array.isArray(link.list) ||
+    link.list.length === 0
+  ) {
+    warnInvalid(path);
+    return {};
+  }
+  const label = link.label.trim();
+
+  const list = [];
+  for (let index = 0; index < link.list.length; index++) {
+    const item = link.list[index];
+    if (
+      !isObject(item) ||
+      typeof item.label !== "string" ||
+      !item.label.trim() ||
+      typeof item.href !== "string" ||
+      !item.href.trim()
+    ) {
+      warnInvalid(`${path}.list[${index}]`);
+      return {};
+    }
+    list.push({ label: item.label.trim(), href: item.href.trim() });
+  }
+
+  return { label, list };
+}
+
+function normalizeFooter(configFooter, metadata) {
+  const footer = {
+    yourname: metadata.creator,
+    fromyear: new Date().getFullYear(),
+    title_as: "text",
+    title: metadata.title.default,
+    description: metadata.description,
+    link0: {},
+    link1: {},
+    link2: {},
+  };
+  if (!isObject(configFooter)) {
+    if (configFooter !== undefined) warnInvalid("footer");
+    return footer;
+  }
+
+  for (const key of ["yourname", "title", "description"]) {
+    if (configFooter[key] !== undefined) {
+      const value = validString(configFooter[key], `footer.${key}`, {
+        required: true,
+      });
+      if (value !== undefined) footer[key] = value;
+    }
+  }
+  if (configFooter.title_as !== undefined) {
+    if (footerTitleTypes.includes(configFooter.title_as)) {
+      footer.title_as = configFooter.title_as;
+    }
+  }
+  if (configFooter.fromyear !== undefined) {
+    if (
+      Number.isInteger(configFooter.fromyear) &&
+      configFooter.fromyear >= 0 &&
+      configFooter.fromyear <= 9999
+    ) {
+      footer.fromyear = configFooter.fromyear;
+    } else {
+      warnInvalid("footer.fromyear");
+    }
+  }
+  for (const key of ["link0", "link1", "link2"]) {
+    footer[key] = normalizeFooterLink(configFooter[key], `footer.${key}`);
+  }
+  return footer;
+}
+
 function normalizeConfig(config) {
   const normalized = clone(defaultTsukuruConfig);
   if (!isObject(config)) {
@@ -209,6 +294,7 @@ function normalizeConfig(config) {
     else warnInvalid("giscus");
   }
   normalized.categories = normalizeCategories(config.categories);
+  normalized.footer = normalizeFooter(config.footer, normalized.metadata);
   return normalized;
 }
 

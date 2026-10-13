@@ -12,9 +12,5 @@ export default function Comment({ data = {} }) {
       </div>
     );
   }
-  return (
-    <>
-      <Giscus {...data} />
-    </>
-  );
+  return <Giscus {...data} />;
 }

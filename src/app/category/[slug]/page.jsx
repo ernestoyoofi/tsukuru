@@ -1,9 +1,9 @@
 import ListArticle from "@/components/section/ListArticle";
-import {
-  Fn_GetListCategories,
-  Fn_GetListArticleCard,
-} from "@/lib/posts/globals";
 import GenerateMetadata from "@/lib/metadata";
+import {
+  Fn_GetListArticleCard,
+  Fn_GetListCategories,
+} from "@/lib/posts/globals";
 
 export default async function Page_ListArticle_ByCategory({ params }) {
   const { slug } = await params;

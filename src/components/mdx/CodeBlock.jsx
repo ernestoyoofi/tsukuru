@@ -102,6 +102,15 @@ export default function MDX_Component_CodeBlock({
     const s = raw.replace(/\n$/, "");
     return s.split("\n");
   }, [raw, hasHighlight]);
+  const keyedLines = useMemo(() => {
+    if (!lines) return [];
+    const occurrences = new Map();
+    return lines.map((line) => {
+      const occurrence = occurrences.get(line) ?? 0;
+      occurrences.set(line, occurrence + 1);
+      return { line, key: `${line}-${occurrence}` };
+    });
+  }, [lines]);
 
   const onCopy = async () => {
     try {
@@ -136,6 +145,7 @@ export default function MDX_Component_CodeBlock({
                 fill="none"
                 aria-hidden
               >
+                <title>Copied</title>
                 <path
                   d="M13.5 4.5L6.5 11.5L2.5 7.5"
                   stroke="currentColor"
@@ -155,6 +165,7 @@ export default function MDX_Component_CodeBlock({
                 fill="none"
                 aria-hidden
               >
+                <title>Copy</title>
                 <path
                   d="M5 3.5H4a1 1 0 00-1 1v7a1 1 0 001 1h6a1 1 0 001-1v-1M8 3.5a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1H9a1 1 0 01-1-1v-4z"
                   stroke="currentColor"
@@ -181,12 +192,12 @@ export default function MDX_Component_CodeBlock({
         >
           {hasHighlight && lines ? (
             <code className="block py-3 text-[13px] leading-6">
-              {lines.map((line, idx) => {
+              {keyedLines.map(({ line, key }, idx) => {
                 const n = idx + 1;
                 const isHL = highlightSet.has(n);
                 return (
                   <span
-                    key={idx}
+                    key={key}
                     className={
                       isHL
                         ? "block border-l-2 border-amber-400 bg-amber-50/70 px-4 pr-6"

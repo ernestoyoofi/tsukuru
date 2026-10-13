@@ -23,11 +23,13 @@ tsukuru/
 ### Target
 
 - [x] Search feature with `minisearch`
-- [ ] Detailing indexing google & SEO
+- [x] Detailing indexing google & SEO
 - [x] Add information image cannot be fetch
-- [ ] Create script init for installer
-- [ ] More configuration for link footer, copyright info and specifict description
+- [x] More configuration for link footer, copyright info and specifict description
 - [ ] More configuration for costumization svg/png/jpg for icon header & footer
+- [ ] Add darkmode
+- [ ] Adding support highlight code
+- [ ] Create script init for installer
 - [ ] Add page pad to limit view
 
 <!-- > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.

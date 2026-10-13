@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { useState, useRef, useEffect } from "react";
 
 export default function ThumbnailPost({
   url = "",
@@ -43,7 +44,7 @@ export default function ThumbnailPost({
       )}
 
       {/* Native Image Element */}
-      <img
+      <Image
         ref={imageRef}
         width={1920}
         height={1080}

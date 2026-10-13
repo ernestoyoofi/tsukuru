@@ -1,11 +1,11 @@
-import { Geist, JetBrains_Mono, Crimson_Text } from "next/font/google";
-import GenerateMetadata, { isMaintenance } from "../lib/metadata";
-import MaintenanceUIPage from "@/components/ui/Maintenance";
+import { Crimson_Text, Geist, JetBrains_Mono } from "next/font/google";
 import Header from "@/components/ui/Header";
+import MaintenanceUIPage from "@/components/ui/Maintenance";
+import GenerateMetadata, { isMaintenance } from "../lib/metadata";
 import "./globals.css";
-import GlobalRootClient from "./RootClient";
 import Footer from "@/components/ui/Footer";
 import loadConfig from "@/lib/load-config";
+import GlobalRootClient from "./RootClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +38,6 @@ export default async function RootLayout({ children }) {
     description: loadConfigs?.metadata?.description || "",
     url: loadConfigs?.metadata?.url || "",
     creator: loadConfigs?.metadata?.creator || "",
-    from_year: "2024",
   };
 
   if (isMaintenanceUI) {
@@ -57,7 +56,7 @@ export default async function RootLayout({ children }) {
         <GlobalRootClient>
           <Header data={basicMeta} />
           <main className="w-full min-h-[calc(100dvh-50px)]">{children}</main>
-          <Footer data={basicMeta} />
+          <Footer data={loadConfigs.footer} />
         </GlobalRootClient>
       </body>
     </html>

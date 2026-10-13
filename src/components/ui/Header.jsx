@@ -2,15 +2,15 @@
 
 import { Magnifier } from "@gravity-ui/icons";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState, useDeferredValue, useMemo } from "react";
 import Link from "next/link";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { cn } from "@/lib/cn";
 import { useSearchMinisearchData } from "@/lib/global/zustand";
 import CardPost from "./CardPost";
-import { cn } from "@/lib/cn";
 
 export default function Header({ data = {} }) {
   const [opensearchbox, setopensearchbox] = useState(false);
-  const { minisearch, status_fetch, error_msg, fetchDataIndexing } =
+  const { minisearch, status_fetch, fetchDataIndexing } =
     useSearchMinisearchData();
   const [searchQuery, setSearchQuery] = useState("");
   const searchQueryDef = useDeferredValue(searchQuery);
@@ -31,7 +31,7 @@ export default function Header({ data = {} }) {
 
   useEffect(() => {
     fetchDataIndexing();
-  }, []);
+  }, [fetchDataIndexing]);
 
   useEffect(() => {
     const content = searchResultsRef.current;
@@ -94,6 +94,7 @@ export default function Header({ data = {} }) {
             </Link>
           </div>
           <button
+            type="button"
             className="w-[50px] min-w-[50px] h-[50px] flex items-center cursor-pointer active:scale-90 duration-150 outline-none"
             aria-label="Navigation"
             onClick={() => {

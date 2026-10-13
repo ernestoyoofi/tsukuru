@@ -1,5 +1,6 @@
 "use client";
 
+import mermaid from "mermaid";
 import {
   Children,
   isValidElement,
@@ -8,7 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-import mermaid from "mermaid";
 
 let mermaidInitialized = false;
 function ensureMermaidInit() {

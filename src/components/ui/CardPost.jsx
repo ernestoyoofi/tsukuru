@@ -1,8 +1,8 @@
+import { Calendar, HourglassEnd } from "@gravity-ui/icons";
 import Link from "next/link";
-import ThumbnailPost from "./ThumbnailPost";
 import { cn } from "@/lib/cn";
-import { ArrowLeft, HourglassEnd, Calendar } from "@gravity-ui/icons";
 import formatArticleDate from "@/lib/date-format";
+import ThumbnailPost from "./ThumbnailPost";
 
 export default function CardPost({
   data = {},
@@ -52,7 +52,7 @@ export default function CardPost({
         data-cardpost-slug={data?.slug || ""}
         href={`/${data?.slug || "no-generate"}`}
       >
-        <div className="w-[170px]">
+        <div className="42.5[170px]">
           <ThumbnailPost
             url={data?.image || ""}
             alt={`Image of ${data?.title}`}
