@@ -1,0 +1,9 @@
+User-Agent: Googlebot
+Allow: /*
+Disallow: /minisearch-feature/
+
+User-Agent: *
+Allow: /*
+Disallow: /minisearch-feature/
+
+Sitemap: https://blog.yupiipi.id/sitemap.xml
