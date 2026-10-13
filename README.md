@@ -26,9 +26,9 @@ tsukuru/
 - [x] Detailing indexing google & SEO
 - [x] Add information image cannot be fetch
 - [x] More configuration for link footer, copyright info and specifict description
-- [ ] More configuration for costumization svg/png/jpg for icon header & footer
+- [ ] More configuration for costumization svg/png/webp for icon header & footer
 - [ ] Add darkmode
-- [ ] Adding support highlight code
+- [x] Adding support highlight code
 - [ ] Create script init for installer
 - [ ] Add page pad to limit view
 

@@ -83,6 +83,7 @@ export default function MDX_Component_CodeBlock({
   language = "",
   highlight = "",
   title = "",
+  highlighted = false,
   children = null,
 }) {
   const preRef = useRef(null);
@@ -114,7 +115,7 @@ export default function MDX_Component_CodeBlock({
 
   const onCopy = async () => {
     try {
-      const text = preRef.current?.innerText ?? raw;
+      const text = raw || preRef.current?.innerText || "";
       await copyText(text);
       setCopied(true);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -185,36 +186,45 @@ export default function MDX_Component_CodeBlock({
         className="max-w-full bg-white"
         style={{ maxWidth: "100%", overflowX: "auto" }}
       >
-        <pre
-          ref={preRef}
-          className="m-0 bg-white p-0 text-sm leading-6 text-zinc-800"
-          style={{ width: "max-content", minWidth: "100%", margin: 0 }}
-        >
-          {hasHighlight && lines ? (
-            <code className="block py-3 text-[13px] leading-6">
-              {keyedLines.map(({ line, key }, idx) => {
-                const n = idx + 1;
-                const isHL = highlightSet.has(n);
-                return (
-                  <span
-                    key={key}
-                    className={
-                      isHL
-                        ? "block border-l-2 border-amber-400 bg-amber-50/70 px-4 pr-6"
-                        : "block px-4 pr-6"
-                    }
-                  >
-                    {line.length === 0 ? "\u00A0" : line}
-                  </span>
-                );
-              })}
-            </code>
-          ) : (
-            <code className="block p-4 text-[13px] leading-6 [&_span]:!bg-transparent">
-              {children}
-            </code>
-          )}
-        </pre>
+        {highlighted ? (
+          <pre
+            ref={preRef}
+            className="m-0 w-max min-w-full bg-white p-4 text-[13px] leading-6 text-zinc-800"
+          >
+            {children}
+          </pre>
+        ) : (
+          <pre
+            ref={preRef}
+            className="m-0 bg-white p-0 text-sm leading-6 text-zinc-800"
+            style={{ width: "max-content", minWidth: "100%", margin: 0 }}
+          >
+            {hasHighlight && lines ? (
+              <code className="block py-3 text-[13px] leading-6">
+                {keyedLines.map(({ line, key }, idx) => {
+                  const n = idx + 1;
+                  const isHL = highlightSet.has(n);
+                  return (
+                    <span
+                      key={key}
+                      className={
+                        isHL
+                          ? "block border-l-2 border-amber-400 bg-amber-50/70 px-4 pr-6"
+                          : "block px-4 pr-6"
+                      }
+                    >
+                      {line.length === 0 ? "\u00A0" : line}
+                    </span>
+                  );
+                })}
+              </code>
+            ) : (
+              <code className="block p-4 text-[13px] leading-6 [&_span]:!bg-transparent">
+                {children}
+              </code>
+            )}
+          </pre>
+        )}
       </div>
     </div>
   );

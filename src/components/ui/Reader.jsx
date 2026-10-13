@@ -1,4 +1,5 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 import mdxComponents from "@/components/mdx";
 import PreBlock from "@/components/ui/PreBlock";
@@ -122,9 +123,12 @@ const baseComponents = {
   //     {props.children}
   //   </div>
   // ),
-  code: (props) => (
+  code: ({ className, ...props }) => (
     <code
-      className="rounded bg-zinc-200/70 px-1.5 py-0.5 font-mono text-[0.85em] text-zinc-800"
+      className={
+        className ||
+        "rounded bg-zinc-200/70 px-1.5 py-0.5 font-mono text-[0.85em] text-zinc-800"
+      }
       {...props}
     />
   ),
@@ -161,7 +165,13 @@ export default function Reader({ content = "" }) {
       components={{ ...baseComponents, ...mdxComponents }}
       options={{
         mdxOptions: {
-          rehypePlugins: [rehypeHeadingData],
+          rehypePlugins: [
+            rehypeHeadingData,
+            [
+              rehypePrettyCode,
+              { theme: "github-light", keepBackground: false },
+            ],
+          ],
           remarkPlugins: [remarkGfm],
         },
       }}

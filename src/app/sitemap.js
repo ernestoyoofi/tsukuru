@@ -7,9 +7,10 @@ export default async function sitemap() {
   const loadconfig = await loadConfig();
   const urlOrigin = loadconfig?.metadata?.url || "http://localhost";
 
+  const listCategory = await Fn_GetListArticleCard({ limit: 60 }); // Get Category
   const listArticle = await Fn_GetListArticleCard({ limit: 60 }); // Get Article
 
-  const contentArticle = listArticle.map((items) => ({
+  const listArticleXML = listArticle.map((items) => ({
     url: new URL(`/${items.slug}`, urlOrigin).toString(),
     lastModified: new Date(items.date),
     changeFrequency: "weekly",
@@ -23,6 +24,6 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 1,
     },
-    ...contentArticle,
+    ...listArticleXML,
   ];
 }
