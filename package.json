@@ -9,9 +9,6 @@
     "lint": "biome check",
     "format": "biome format --write"
   },
-  "overrides": {
-    "mermaid>katex": "0.18.2"
-  },
   "dependencies": {
     "@giscus/react": "^3.1.0",
     "@gravity-ui/icons": "^2.22.1",
