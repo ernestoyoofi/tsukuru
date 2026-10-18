@@ -30,24 +30,24 @@
         script: string (required if type is 'umami' | 'plausible' | 'matomo')
       }
     }
-    giscus {} // third party parameter reference to @giscus/react
-    categories {  // default: '{}' as no special categories
+    giscus {}
+    categories {
       [key: string] {
-        pin: boolean (optional) // max 4 pinned categories
+        pin: boolean (optional)
         image: string (required)
         title: string (required)
         description: string (required)
         relate: string[] (optional)
       }
     }
-    footer { // Footer on page (optional, default: {})
+    footer {
       yourname: string (optional, default: <TsukuruConfig>.metadata.creator)
       fromyear: number (optional, default: new Date().getFullYear())
       title_as: 'text' | 'image' | 'both' (optional, default: 'text')
       title: (optional, default: <TsukuruConfig>.metadata.title.default)
       description: (optional, default: <TsukuruConfig>.metadata.description)
-      link0: { // For column footer 1 (optional, default: {}, require all parameter require in here for showing costumization)
-        label: string (require) // For label title
+      link0: {
+        label: string (require)
         list: [ (require, need 1 object on array)
           {
             label: string (require)
@@ -55,8 +55,8 @@
           }
         ]
       }
-      link1: { // For column footer 2 (optional, default: {}, require all parameter require in here for showing costumization)
-        label: string (require) // For label title
+      link1: {
+        label: string (require)
         list: [ (require, need 1 object on array)
           {
             label: string (require)
@@ -64,8 +64,8 @@
           }
         ]
       }
-      link2: { // For column footer 3 (optional, default: {}, require all parameter require in here for showing costumization)
-        label: string (require) // For label title
+      link2: {
+        label: string (require)
         list: [ (require, need 1 object on array)
           {
             label: string (require)
@@ -79,7 +79,7 @@
 
 export const TsukuruConfig = {
   base: {
-    dist: undefined, // The default is "/", all pages will be indexed under "/", but if you want to use a custom path—for example, "/blog" you can still do so.
+    dist: "/blog", // The default is "/", all pages will be indexed under "/", but if you want to use a custom path—for example, "/blog" you can still do so.
     showauthor: false, // By default, author not show in card article
     maintenance: false, // Force all content rendered in the layout to be processed by Maintenance.jsx
     shortcode: true, // Enable shortlink like 'https://example.com/this-is-my-blog' to 'https://example.com/c/7b37d4c6cf0e' if metadata on mdx set 'codelink'
@@ -128,43 +128,43 @@ export const TsukuruConfig = {
     loading: "lazy",
   },
   categories: {
-    // By default, categories is '{}' as no special categories
+    // Each key is the category identifier used in article metadata and URLs.
     tutorial: {
-      pin: true, // The maximum number of categories that can be pinned is 4
-      image: "/image/cate/tutorial-cF7z.webp",
-      title: "Tutorial",
-      description: "A basic information for tutorial",
-      relate: ["basic-knowledge", "informatif", "technology", "how-to-use"],
+      pin: true, // Pin this category, a maximum of four categories can be pinned.
+      image: "/image/cate/tutorial-cF7z.webp", // Image used to represent the category.
+      title: "Tutorial", // Display name for the category.
+      description: "A basic information for tutorial", // Short description shown for the category.
+      relate: ["basic-knowledge", "informatif", "technology", "how-to-use"], // Optional related topic identifiers.
     },
   },
   footer: {
-    yourname: "@ernestoyoofi <costum for footer>",
-    fromyear: 2026,
-    title_as: "text",
-    title: "Tsukuru <costum for footer>",
+    yourname: "@ernestoyoofi <costum for footer>", // Name or attribution displayed in the copyright notice.
+    fromyear: 2026, // Starting year displayed in the copyright notice.
+    title_as: "image", // Footer title format: 'text', 'image', or 'both'.
+    title: "Tsukuru <costum for footer>", // Footer title, defaults to metadata.title.default.
     description:
-      "A highly customizable, aesthetic MDX blog template built with Next.js. <costum for footer>",
+      "A highly customizable, aesthetic MDX blog template built with Next.js. <costum for footer>", // Footer description, defaults to metadata.description.
     link0: {
-      label: "Other",
+      label: "Other", // Heading for the first link column.
       list: [
-        { label: "Support", href: "#" },
+        { label: "Support", href: "#" }, // Each item has a display label and destination URL.
         { label: "Contact", href: "#" },
         { label: "Documentation", href: "#" },
       ],
     },
     link1: {
-      label: "Links",
+      label: "Links", // Heading for the second link column.
       list: [
         { label: "Get Apps", href: "#" },
         { label: "About Tsukuru", href: "#" },
         {
           label: "Repository",
-          href: "https://github.com/ernestoyoofi/tsukuru",
+          href: "https://github.com/ernestoyoofi/tsukuru", // Link destination, use a full URL for external sites.
         },
       ],
     },
     link2: {
-      label: "Social Media",
+      label: "Social Media", // Heading for the third link column.
       list: [
         { label: "Github", href: "#" },
         { label: "Instagram", href: "#" },

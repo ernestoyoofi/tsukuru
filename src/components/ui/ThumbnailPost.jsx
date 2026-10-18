@@ -55,7 +55,7 @@ export default function ThumbnailPost({
         )}
         src={imageSrc}
         alt={alt || "Image"}
-        loading={timeToLazy? "lazy":"eager"}
+        loading={timeToLazy ? "lazy" : "eager"}
         decoding="async"
         onLoad={() => setLoading(false)}
         onError={() => {

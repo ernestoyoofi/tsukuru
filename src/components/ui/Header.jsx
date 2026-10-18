@@ -2,6 +2,7 @@
 
 import { Magnifier } from "@gravity-ui/icons";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
@@ -88,11 +89,23 @@ export default function Header({ data = {} }) {
       <div className="fixed top-0 left-0 w-full h-25 masking-gradation-top-to-bottom pointer-events-none z-101" />
       <header className="sticky top-0 left-0 w-full py-2 z-101 bg-gradient-to-b from-30% from-slate-50 to-transparent">
         <div className="w-full max-w-7xl m-auto h-12.5 flex items-center justify-between p-2">
-          <div className="w-full font-semibold">
-            <Link href="/" className="p-4 py-2">
-              {data.title || "Tsukuru (/)"}
-            </Link>
-          </div>
+          <Link className="w-full" href="/">
+            {data.assets?.media?.header ? (
+              <div className="w-auto h-12.5 flex justify-start items-center pl-2.5">
+                <Image
+                  className="w-auto h-full object-contain"
+                  height={35}
+                  width={300}
+                  alt={data.title || "Title Icon"}
+                  src={`${data.assets.preload_dir}/assets/${data.assets.media.header}`}
+                />
+              </div>
+            ) : (
+              <p className="p-4 py-2 font-semibold">
+                {data.title || "Tsukuru (/)"}
+              </p>
+            )}
+          </Link>
           <button
             type="button"
             className="w-[50px] min-w-[50px] h-[50px] flex items-center cursor-pointer active:scale-90 duration-150 outline-none"
