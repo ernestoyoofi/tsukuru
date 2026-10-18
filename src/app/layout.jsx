@@ -50,7 +50,7 @@ export default async function RootLayout({ children }) {
     url: loadConfigs?.metadata?.url || "",
     creator: loadConfigs?.metadata?.creator || "",
     assets: {
-      preload_dir: loadConfigs.base.dist || "/",
+      preload_dir: loadConfigs.base.dist || "",
       media: {
         header: assetsHeader[0]?.name,
         footer: assetsFooter[0]?.name,
