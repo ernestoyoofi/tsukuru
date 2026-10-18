@@ -1,23 +1,25 @@
 # Tsukuru
 
-Article Engine for Github static page with Next.js
+An article publishing engine for static sites built with Next.js.
 
 ---
 
-### Template structure for build article
+### Project structure
 
 ```txt
-tsukuru/
+tsukuru/                                   → Init project
 ├─ .github
 │   └─ workflows
-│       └─ tsukuru.yml  → Github Workflows (Optional if not build on github pages)
-├─ posts/*              → List Posts Article
+│       └─ tsukuru.yml                     → GitHub Actions workflow (optional if you build locally)
+├─ posts/*                                 → Blog posts
 ├─ public/
-│   ├─ assets/          → For Global Assets Like Icon Header / Icon Footer
-│   └─ images/          → For Assets Article
-├─ favicon.ico          → Icon Website / Favicon
-├─ CNAME                → Github static page CNAME
-└─ tsukuru.config.js    → Configuration Tsukuru Template
+│   ├─ assets/                             → Site-wide assets, such as header and footer icons
+│   │   ├─ icon-header.svg (or .webp/.png) → Custom header title image or icon
+│   │   └─ icon-footer.svg (or .webp/.png) → Custom footer title image or icon
+│   └─ images/                             → Images used in blog posts
+├─ favicon.ico                             → Site favicon
+├─ CNAME                                   → Custom domain for GitHub Pages
+└─ tsukuru.config.js                       → Tsukuru template configuration
 ```
 
 ### Target
@@ -35,4 +37,4 @@ tsukuru/
 
 <!-- > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
 
-Article Engine for Github static page with Next.js -->
+An article publishing engine for static sites built with Next.js. -->

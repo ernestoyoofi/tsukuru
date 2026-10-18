@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 export default function ThumbnailPost({
   url = "",
   className = "",
+  timeToLazy = true,
   alt = "Image",
 }) {
   const [isLoading, setLoading] = useState(true);
@@ -30,16 +31,16 @@ export default function ThumbnailPost({
     >
       {/* Loading Shimmer State */}
       {isLoading && !isError && (
-        <div className="absolute inset-0 z-10 w-full h-full bg-neutral-200 flex items-center justify-center select-none">
-          <p className="text-neutral-400 font-semibold">Loading...</p>
+        <div className="absolute inset-0 z-10 w-full h-full bg-neutral-100 flex items-center justify-center select-none">
+          <p className="text-neutral-500 font-semibold">Loading...</p>
           <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_1.5s_infinite]" />
         </div>
       )}
 
       {/* Error State */}
       {isError && (
-        <div className="absolute inset-0 z-10 w-full h-full bg-neutral-200 flex items-center justify-center select-none">
-          <p className="text-neutral-400 font-semibold">No Image...</p>
+        <div className="absolute inset-0 z-10 w-full h-full bg-neutral-100 flex items-center justify-center select-none">
+          <p className="text-neutral-500 font-semibold">No Image...</p>
         </div>
       )}
 
@@ -54,7 +55,7 @@ export default function ThumbnailPost({
         )}
         src={imageSrc}
         alt={alt || "Image"}
-        loading="lazy"
+        loading={timeToLazy? "lazy":"eager"}
         decoding="async"
         onLoad={() => setLoading(false)}
         onError={() => {

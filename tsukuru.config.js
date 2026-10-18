@@ -1,7 +1,9 @@
 /*
-  |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
-  |            TsukuruConfig Types             |
-  |____________________________________________|
+  ┌──────────────────────────────────────────────┐
+  │       TsukuruConfig Types (Ver. 0.1.3)       │
+  └──────────────────────────────────────────────┘
+  [Old at 0.1.0 configuration still valid]
+  Reference: github.com/ernestoyoofi/tsukuru/blob/main/tsukuru.config.js
 
   TsukuruConfig {
     base {

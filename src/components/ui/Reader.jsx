@@ -1,9 +1,29 @@
+import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 import mdxComponents from "@/components/mdx";
 import PreBlock from "@/components/ui/PreBlock";
 import { cn } from "@/lib/cn";
+import loadConfig from "@/lib/load-config";
+
+const linkClassName =
+  "font-medium text-sky-600 underline decoration-sky-300 underline-offset-4 hover:text-sky-700";
+
+function isInternalLink(href, siteUrl) {
+  if (typeof href !== "string") return false;
+  if (!/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(href)) return true;
+
+  try {
+    const linkUrl = new URL(href);
+    return (
+      ["http:", "https:"].includes(linkUrl.protocol) &&
+      linkUrl.origin === new URL(siteUrl).origin
+    );
+  } catch {
+    return false;
+  }
+}
 
 function getTextContent(node) {
   if (typeof node.value === "string") return node.value;
@@ -68,12 +88,6 @@ const baseComponents = {
     />
   ),
   p: (props) => <p className="mt-4 leading-7 text-zinc-950" {...props} />,
-  a: (props) => (
-    <a
-      className="font-medium text-sky-600 underline decoration-sky-300 underline-offset-4 hover:text-sky-700"
-      {...props}
-    />
-  ),
   ul: ({ className, ...props }) => (
     <ul
       {...props}
@@ -157,12 +171,30 @@ const baseComponents = {
   del: (props) => <del className="line-through opacity-70" {...props} />,
 };
 
-export default function Reader({ content = "" }) {
+export default async function Reader({ content = "" }) {
   if (!String(content || "").trim()) return null;
+  const { metadata } = await loadConfig();
+  const components = {
+    ...baseComponents,
+    ...mdxComponents,
+    a: ({ href, className, rel, ...props }) =>
+      isInternalLink(href, metadata.url) ? (
+        <Link href={href} className={className || linkClassName} {...props} />
+      ) : (
+        <a
+          href={href}
+          className={className || linkClassName}
+          {...props}
+          target="_blank"
+          rel={[rel, "noopener", "noreferrer"].filter(Boolean).join(" ")}
+        />
+      ),
+  };
+
   return (
     <MDXRemote
       source={content}
-      components={{ ...baseComponents, ...mdxComponents }}
+      components={components}
       options={{
         mdxOptions: {
           rehypePlugins: [
