@@ -1,5 +1,6 @@
 const defaultTsukuruConfig = {
   base: {
+    dist: undefined,
     showauthor: false,
     maintenance: false,
     shortcode: false,
@@ -55,6 +56,21 @@ function normalizeBase(configBase) {
   if (!isObject(configBase)) {
     if (configBase !== undefined) warnInvalid("base");
     return base;
+  }
+
+  if (configBase.dist !== undefined) {
+    if (typeof configBase.dist !== "string" || !configBase.dist.trim()) {
+      warnInvalid("base.dist");
+    } else {
+      const dist = configBase.dist.trim().replace(/\/+$/, "");
+      if (dist === "") {
+        base.dist = undefined;
+      } else if (dist.startsWith("/") && !/[?#\\]/.test(dist)) {
+        base.dist = dist;
+      } else {
+        warnInvalid("base.dist");
+      }
+    }
   }
 
   for (const key of ["showauthor", "maintenance", "shortcode"]) {
