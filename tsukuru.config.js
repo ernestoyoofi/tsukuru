@@ -79,7 +79,7 @@
 
 export const TsukuruConfig = {
   base: {
-    dist: "/blog", // The default is "/", all pages will be indexed under "/", but if you want to use a custom path—for example, "/blog" you can still do so.
+    dist: undefined, // The default is "/", all pages will be indexed under "/", but if you want to use a custom path—for example, "/blog" you can still do so.
     showauthor: false, // By default, author not show in card article
     maintenance: false, // Force all content rendered in the layout to be processed by Maintenance.jsx
     shortcode: true, // Enable shortlink like 'https://example.com/this-is-my-blog' to 'https://example.com/c/7b37d4c6cf0e' if metadata on mdx set 'codelink'
