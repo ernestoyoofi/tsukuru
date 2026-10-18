@@ -31,10 +31,12 @@ tsukuru/                                   → Init project
 - [x] More configuration for costumization svg/png/webp for icon header & footer
 - [x] Adding support highlight code
 - [x] Support costum destination folder
-- [ ] Create script init for installer
+- [ ] Create script init for installer, preview and check validate format (`tsukuru-md init`, `tsukuru-md view`, `tsukuru-md build`, `tsukuru-md validate`)
 - [ ] Add page pad to limit view
 - [ ] Add dark mode
 
-<!-- > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
+<!--
+> Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
 
-An article publishing engine for static sites built with Next.js. -->
+An article publishing engine for static sites built with Next.js.
+-->
