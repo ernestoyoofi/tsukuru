@@ -1,0 +1,33 @@
+{
+  "name": "tsukuru-cli",
+  "version": "0.1.0",
+  "description": "CLI to initialize, preview, and validate Tsukuru blogs.",
+  "author": "Yupi! <94425296+ernestoyoofi@users.noreply.github.com>",
+  "type": "module",
+  "bin": {
+    "tsukuru": "bin/tsukuru.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "start": "node bin/tsukuru.js",
+    "help": "node bin/tsukuru.js --help",
+    "lint": "node --check bin/tsukuru.js && node --check src/cli.js"
+  },
+  "keywords": [
+    "tsukuru",
+    "blog",
+    "nextjs",
+    "mdx",
+    "cli",
+    "static-site"
+  ],
+  "license": "MIT"
+}
