@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ReadingArticle from "@/components/section/ReadingArticle";
 import loadConfig from "@/lib/load-config";
 import GenerateMetadata from "@/lib/metadata";
@@ -6,14 +6,20 @@ import {
   Fn_GetContentArticles,
   Fn_GetListArticleCard,
   Fn_GetListCategories,
+  Fn_GetListCodeLink,
   Fn_GetListSlugArticles,
+  Fn_GetRealSlugCodeLink,
 } from "@/lib/posts/globals";
 
 export default async function Page_ReadArticle({ params }) {
   const { slug } = await params;
+  const shortLink = await Fn_GetRealSlugCodeLink({ code: slug });
   const readInfo = await Fn_GetContentArticles({ slug: slug });
 
-  // Not Found Page
+  // Redirect to real page
+  if (shortLink) redirect(`/${shortLink}`);
+
+  // Not found
   if (!readInfo) notFound();
 
   const configComments = (await loadConfig()).giscus;
@@ -50,7 +56,13 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-  const getList = await Fn_GetListSlugArticles();
+  const getListArticles = await Fn_GetListSlugArticles();
+  const getListSlugArticles = await Fn_GetListCodeLink();
+
+  const getList = [
+    ...getListArticles,
+    ...getListSlugArticles.map((a) => a?.codelink),
+  ];
   if (!getList[0]) {
     return [{ slug: "no-generate" }];
   }

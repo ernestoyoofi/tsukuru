@@ -31,6 +31,7 @@ tsukuru/                                   → Init project
 - [x] More configuration for costumization svg/png/webp for icon header & footer
 - [x] Adding support highlight code
 - [x] Support costum destination folder
+- [x] Shortlink detected and redirect it
 - [ ] Create script init for installer, preview and check validate format (`tsukuru-md init`, `tsukuru-md view`, `tsukuru-md build`, `tsukuru-md validate`)
 - [ ] Add page pad to limit view
 - [ ] Add dark mode

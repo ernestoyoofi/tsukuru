@@ -1,12 +1,15 @@
-import loadConfig from "../load-config";
-import ContentParser from "./content-parser";
-import { readAllArticle } from "./read-dir";
+import loadConfig from "../load-config.js";
+import ContentParser from "./content-parser.js";
+import { readAllArticle } from "./read-dir.js";
 
-async function parseAllPosts() {
+async function parseAllPosts({ includeSource = false } = {}) {
   const { base: baseMeta = {} } = await loadConfig();
   const list = readAllArticle();
   const posts = await Promise.all(
-    list.map(([filePath, fileName]) => ContentParser(filePath, fileName)),
+    list.map(async ([filePath, fileName]) => {
+      const post = await ContentParser(filePath, fileName);
+      return includeSource ? { ...post, source: fileName } : post;
+    }),
   );
 
   detectDuplicateSlugs(posts);
@@ -21,14 +24,17 @@ async function parseAllPosts() {
     return dateB - dateA;
   });
 
-  return posts.map((post) => ({
-    ...post,
-    metadata: {
-      ...post.metadata,
-      cardtype: baseMeta.stylecard ?? "basic",
-      showauthor: Boolean(baseMeta.showauthor),
-    },
-  }));
+  return posts.map((post) => {
+    const result = {
+      ...post,
+      metadata: {
+        ...post.metadata,
+        cardtype: baseMeta.stylecard ?? "basic",
+        showauthor: Boolean(baseMeta.showauthor),
+      },
+    };
+    return result;
+  });
 }
 
 function detectDuplicateSlugs(posts) {
@@ -75,8 +81,9 @@ export async function Fn_ReadingAllContent({
   filteringUnvalid = true,
   hiddenDraft = true,
   metadataOnly = false,
+  includeSource = false,
 } = {}) {
-  const all = await parseAllPosts();
+  const all = await parseAllPosts({ includeSource });
 
   if (!filteringUnvalid && !metadataOnly) return all;
 
@@ -191,6 +198,38 @@ export async function Fn_GetListArticleCard({
   });
 
   return getArts.data.map((a) => a.metadata);
+}
+
+export async function Fn_GetListCodeLink({
+  filter_by = null,
+  filter_value = null,
+  disabled_padpage = true,
+  page = 1,
+  limit = 50,
+  unvalid_metadata = false,
+  ...otherparams
+} = {}) {
+  const articles = await Fn_GetListArticleCard({
+    filter_by,
+    filter_value,
+    disabled_padpage,
+    page,
+    limit,
+    unvalid_metadata,
+    ...otherparams,
+  });
+
+  return articles
+    .filter((article) => article.codelink && article.slug)
+    .map(({ codelink, slug }) => ({ codelink, slug }));
+}
+
+export async function Fn_GetRealSlugCodeLink({ code = null } = {}) {
+  if (typeof code !== "string" || !code.trim()) return null;
+
+  const codeLinks = await Fn_GetListCodeLink({ disabled_padpage: true });
+  const match = codeLinks.find((entry) => entry.codelink === code.trim());
+  return match?.slug ?? null;
 }
 
 export async function Fn_GetContentArticles({ slug = "" } = {}) {
