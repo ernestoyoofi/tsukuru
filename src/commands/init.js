@@ -17,7 +17,29 @@ import {
   remove,
 } from "../lib/fs.js";
 import { sessionPath } from "../lib/platform.js";
+import { canPrompt, promptText } from "../lib/prompt.js";
 import { log, color } from "../lib/log.js";
+
+const PROJECT_NAME_PATTERN = /^[A-Za-z0-9_.]+$/;
+const WINDOWS_RESERVED =
+  /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(\..*)?$/i;
+
+export function validateProjectName(name) {
+  if (!name) return "Project name cannot be empty.";
+  if (name === "." || name === ".." || /^\.+$/.test(name)) {
+    return "Project name cannot be '.' or '..'.";
+  }
+  if (!PROJECT_NAME_PATTERN.test(name)) {
+    return "Use only A-Z, a-z, 0-9, underscore (_), and dot (.). No spaces or other symbols.";
+  }
+  if (name.endsWith(".")) {
+    return "Project name cannot end with a dot.";
+  }
+  if (WINDOWS_RESERVED.test(name)) {
+    return `"${name}" is a reserved name on Windows. Choose another name.`;
+  }
+  return null;
+}
 
 async function copyStructure(source, destination) {
   await ensureDir(destination);
@@ -34,9 +56,25 @@ async function copyStructure(source, destination) {
 
 export async function initCommand(options) {
   if (!options.name && !options.dir) {
-    throw new Error(
-      "Missing project name.\nUsage: tsukuru init <name>\n       tsukuru --init --name <name>",
+    if (!canPrompt()) {
+      throw new Error(
+        "Missing project name.\nUsage: tsukuru init <name>\n       tsukuru --init --name <name>",
+      );
+    }
+
+    log.info(
+      "Project name is required. Use only letters, numbers, underscore (_), and dot (.).",
     );
+    options.name = await promptText("Project name", {
+      validate: validateProjectName,
+    });
+  }
+
+  if (options.name) {
+    const nameError = validateProjectName(options.name);
+    if (nameError) {
+      throw new Error(`Invalid project name "${options.name}": ${nameError}`);
+    }
   }
 
   const { config } = await loadConfig();
@@ -108,5 +146,5 @@ export async function initCommand(options) {
   }
   log.out("  tsukuru serve       # preview the site");
   log.out("  tsukuru validate    # check post metadata");
-  log.out("  git add -A && git commit -m \"Initial commit\"");
+  log.out("  tsukuru publish     # commit and push to your repository");
 }

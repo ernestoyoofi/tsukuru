@@ -18,7 +18,9 @@
   },
   "scripts": {
     "start": "node bin/tsukuru.js",
+    "start:bun": "bun bin/tsukuru.js",
     "help": "node bin/tsukuru.js --help",
+    "help:bun": "bun bin/tsukuru.js --help",
     "lint": "node --check bin/tsukuru.js && node --check src/cli.js"
   },
   "keywords": [

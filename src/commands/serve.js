@@ -28,7 +28,7 @@ export async function serveCommand(options) {
     port,
     host,
     install: options.install,
-    refresh: options.refresh,
+    refresh: options.refresh || options.force,
     offline: options.offline,
     keepTemp: options.keepTemp,
     open: options.open,

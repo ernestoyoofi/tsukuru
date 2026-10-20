@@ -5,6 +5,8 @@ import { serveCommand } from "./commands/serve.js";
 import { validateCommand } from "./commands/validate.js";
 import { templatePreviewCommand } from "./commands/templatePreview.js";
 import { configCommand } from "./commands/config.js";
+import { publishCommand } from "./commands/publish.js";
+import { isBun, runtimeName, runtimeVersion } from "./lib/runtime.js";
 
 const MIN_NODE = [20, 9, 0];
 
@@ -24,6 +26,10 @@ function ensureNodeVersion() {
 export async function main(argv) {
   const options = parseArgs(argv);
 
+  if (process.env.TSUKURU_DEBUG === "1") {
+    console.error(`[tsukuru] runtime: ${runtimeName} ${runtimeVersion}`);
+  }
+
   if (options.version || options.command === "version") {
     printVersion();
     return;
@@ -34,8 +40,7 @@ export async function main(argv) {
     return;
   }
 
-  ensureNodeVersion();
-
+  if (!isBun) ensureNodeVersion();
   switch (options.command) {
     case "init":
       await initCommand(options);
@@ -48,6 +53,9 @@ export async function main(argv) {
       break;
     case "template-preview":
       await templatePreviewCommand(options);
+      break;
+    case "publish":
+      await publishCommand(options);
       break;
     case "config":
       await configCommand(options);

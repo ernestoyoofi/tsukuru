@@ -10,7 +10,8 @@ import {
   materializeSession,
   syncContent,
 } from "./workspace.js";
-import { color, log } from "./log.js";
+import { log } from "./log.js";
+import { preferredRuntime } from "./runtime.js";
 
 function watchDirectory(directory, handler) {
   if (!existsSync(directory)) return null;
@@ -45,6 +46,8 @@ export async function runPreview({
       `Invalid preview port: ${port}. Set --port or TSUKURU_PORT to a value between 1 and 65535.`,
     );
   }
+
+  const runtime = preferredRuntime();
 
   const template = await ensureTemplate({
     repo,
@@ -138,7 +141,7 @@ export async function runPreview({
   const watchers = [];
 
   function startServer() {
-    child = spawnDetached(process.execPath, nextArgs, {
+    child = spawnDetached(runtime.command, nextArgs, {
       cwd: sessionDir,
       env: {
         ...process.env,
@@ -274,8 +277,6 @@ export async function runPreview({
     log.step("Watching tsukuru.config.js for changes (auto-restart).");
     log.step("Watching posts/ and public/ for changes (auto-sync).");
   }
-
-  log.success(`Preview: ${color.bold(url)}`);
 
   startServer();
 

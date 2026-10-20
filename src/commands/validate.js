@@ -10,6 +10,7 @@ import {
   resolveProjectDir,
 } from "../lib/workspace.js";
 import { color, log } from "../lib/log.js";
+import { preferredRuntime } from "../lib/runtime.js";
 
 export async function validateCommand(options) {
   const { config } = await loadConfig();
@@ -29,7 +30,7 @@ export async function validateCommand(options) {
   const template = await ensureTemplate({
     repo,
     branch: templateBranch,
-    refresh: options.refresh,
+    refresh: options.refresh || options.force,
     offline: options.offline,
   });
 
@@ -60,8 +61,9 @@ export async function validateCommand(options) {
     log.step(`Validating posts from ${path.join(projectDir, "posts")}…`);
     log.blank();
 
+    const runtime = preferredRuntime();
     const child = spawn(
-      process.execPath,
+      runtime.command,
       [script, ...options.passthrough],
       {
         cwd: sessionDir,

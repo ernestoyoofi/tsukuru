@@ -8,6 +8,8 @@ export const COMMAND_ALIASES = {
   validate: "validate",
   test: "validate",
   check: "validate",
+  publish: "publish",
+  push: "publish",
   "template-preview": "template-preview",
   template: "template-preview",
   tpl: "template-preview",
@@ -48,6 +50,8 @@ export function parseArgs(rawArgv) {
     dir: null,
     repo: null,
     branch: null,
+    remote: null,
+    protocol: null,
     structureBranch: null,
     templateBranch: null,
     port: null,
@@ -113,6 +117,16 @@ export function parseArgs(rawArgv) {
       }
       case "--repo": {
         options.repo = takeValue(argv, index, arg);
+        index += 1;
+        break;
+      }
+      case "--remote": {
+        options.remote = takeValue(argv, index, arg);
+        index += 1;
+        break;
+      }
+      case "--protocol": {
+        options.protocol = takeValue(argv, index, arg);
         index += 1;
         break;
       }
@@ -200,6 +214,8 @@ export function parseArgs(rawArgv) {
   } else if (options.command === "serve") {
     options.dir = options.dir || positionals.shift() || null;
   } else if (options.command === "validate") {
+    options.dir = options.dir || positionals.shift() || null;
+  } else if (options.command === "publish") {
     options.dir = options.dir || positionals.shift() || null;
   }
 

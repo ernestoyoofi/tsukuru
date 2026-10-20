@@ -7,6 +7,7 @@ import {
   DEFAULT_REPO,
   DEFAULT_STRUCTURE_BRANCH,
   DEFAULT_TEMPLATE_BRANCH,
+  DEFAULT_TEMPLATE_TTL_MINUTES,
 } from "./constants.js";
 import { ensureDir, pathExists, remove } from "./fs.js";
 import { slugify } from "./platform.js";
@@ -15,7 +16,12 @@ import { log } from "./log.js";
 const GITHUB_URL =
   /github\.com[/:]([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+?)(?:\.git)?(?:$|[/?#])/;
 
-export { DEFAULT_REPO, DEFAULT_STRUCTURE_BRANCH, DEFAULT_TEMPLATE_BRANCH };
+export {
+  DEFAULT_REPO,
+  DEFAULT_STRUCTURE_BRANCH,
+  DEFAULT_TEMPLATE_BRANCH,
+  DEFAULT_TEMPLATE_TTL_MINUTES,
+};
 
 let gitAvailable = null;
 
@@ -52,14 +58,14 @@ export function resolveRepo(input) {
   };
 }
 
-function git(args, { cwd, inherit = false } = {}) {
+function gitSpawn(args, { cwd, inherit = false } = {}) {
   const result = spawnSync("git", args, {
     cwd,
     encoding: "utf8",
     stdio: inherit ? "inherit" : "pipe",
     env: {
       ...process.env,
-      GIT_TERMINAL_PROMPT: "0",
+      ...(inherit ? {} : { GIT_TERMINAL_PROMPT: "0" }),
     },
   });
 
@@ -74,7 +80,23 @@ function git(args, { cwd, inherit = false } = {}) {
     );
   }
 
-  return (result.stdout || "").trim();
+  return result.stdout || "";
+}
+
+function git(args, options = {}) {
+  return gitSpawn(args, options).trim();
+}
+
+export function gitOutput(args, { cwd } = {}) {
+  return git(args, { cwd });
+}
+
+export function gitRaw(args, { cwd } = {}) {
+  return gitSpawn(args, { cwd });
+}
+
+export function gitRun(args, { cwd } = {}) {
+  gitSpawn(args, { cwd, inherit: true });
 }
 
 export function cloneShallow(repo, branch, destination) {
@@ -92,10 +114,18 @@ export function cloneShallow(repo, branch, destination) {
 }
 
 export function updateShallow(directory, branch) {
+  const before = getCommit(directory);
   git(["fetch", "--depth", "1", "--no-tags", "origin", branch], {
     cwd: directory,
   });
+  const after = git(["rev-parse", "FETCH_HEAD"], { cwd: directory });
+
+  if (before && before === after) {
+    return { updated: false, before, after };
+  }
+
   git(["reset", "--hard", "FETCH_HEAD"], { cwd: directory });
+  return { updated: true, before, after };
 }
 
 export function getCommit(directory) {
@@ -203,9 +233,9 @@ export async function getLatestSource(repo, branch, destination) {
 
 export async function refreshSource(repo, branch, destination) {
   if (await pathExists(path.join(destination, ".git"))) {
-    updateShallow(destination, branch);
-    return "git";
+    const result = updateShallow(destination, branch);
+    return { kind: "git", ...result };
   }
   await downloadArchive(repo, branch, destination);
-  return "archive";
+  return { kind: "archive", updated: null, before: null, after: null };
 }

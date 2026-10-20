@@ -11,13 +11,21 @@ import {
   writeJson,
 } from "./fs.js";
 import { getCommit, getLatestSource, refreshSource } from "./git.js";
+import { DEFAULT_TEMPLATE_TTL_MINUTES } from "./constants.js";
 import { cacheRoot, slugify } from "./platform.js";
 import { log } from "./log.js";
+import { preferredRuntime } from "./runtime.js";
 import { VERSION } from "../version.js";
 
 const TEMPLATE_TTL_MS = (() => {
-  const minutes = Number(process.env.TSUKURU_TEMPLATE_TTL_MINUTES || 10);
-  return (Number.isFinite(minutes) && minutes >= 0 ? minutes : 10) * 60 * 1000;
+  const minutes = Number(
+    process.env.TSUKURU_TEMPLATE_TTL_MINUTES || DEFAULT_TEMPLATE_TTL_MINUTES,
+  );
+  const safeMinutes =
+    Number.isFinite(minutes) && minutes >= 0
+      ? minutes
+      : DEFAULT_TEMPLATE_TTL_MINUTES;
+  return safeMinutes * 60 * 1000;
 })();
 
 function sha256(values) {
@@ -47,6 +55,9 @@ export async function ensureTemplate({ repo, branch, refresh, offline }) {
     }
   }
 
+  let checkedAt = Number(meta?.checkedAt);
+  if (!Number.isFinite(checkedAt)) checkedAt = sourceExists ? 0 : Date.now();
+
   if (!sourceExists) {
     if (offline) {
       throw new Error(
@@ -56,13 +67,34 @@ export async function ensureTemplate({ repo, branch, refresh, offline }) {
     log.step(`Downloading template ${repo.raw} (${branch})…`);
     await ensureDir(base);
     await getLatestSource(repo, branch, sourceDir);
+    checkedAt = Date.now();
   } else {
-    const stale =
-      !meta?.checkedAt ||
-      Date.now() - Number(meta.checkedAt) > TEMPLATE_TTL_MS;
+    const stale = Date.now() - checkedAt > TEMPLATE_TTL_MS;
+
     if (!offline && (refresh || stale)) {
+      if (refresh) {
+        log.step(`Forcing a template check for ${repo.raw} (${branch})…`);
+      } else {
+        log.step(
+          "Template cache is older than the configured interval; checking for updates…",
+        );
+      }
+
       try {
-        await refreshSource(repo, branch, sourceDir);
+        const result = await refreshSource(repo, branch, sourceDir);
+        checkedAt = Date.now();
+
+        if (result.kind === "git" && result.updated === false) {
+          log.info(
+            `Template is already up to date (${String(result.after).slice(0, 7)}); using the cached version.`,
+          );
+        } else if (result.kind === "git") {
+          log.success(
+            `Template updated to ${String(result.after).slice(0, 7)}.`,
+          );
+        } else {
+          log.info("Template archive refreshed.");
+        }
       } catch (error) {
         log.warn(
           `Could not refresh the template cache; using the local copy. (${error.message.split("\n")[0]})`,
@@ -76,27 +108,27 @@ export async function ensureTemplate({ repo, branch, refresh, offline }) {
     repo: repo.raw,
     branch,
     commit,
-    checkedAt: Date.now(),
+    checkedAt,
   });
 
   return { dir: sourceDir, commit };
 }
 
-function detectManager(templateDir) {
-  const hasBunLock = existsSync(path.join(templateDir, "bun.lock"));
-  const bun = spawnSync("bun", ["--version"], { stdio: "ignore" });
-  const bunAvailable = !bun.error && bun.status === 0;
-
-  if (bunAvailable && hasBunLock) {
-    return { name: "bun", args: ["install"] };
+function detectManager(runtime) {
+  if (runtime.name === "bun") {
+    return { name: "bun", command: runtime.command, args: ["install"] };
   }
 
-  return { name: "npm", args: ["install", "--no-audit", "--no-fund", "--prefer-online"] };
+  return {
+    name: "npm",
+    command: "npm",
+    args: ["install", "--no-audit", "--no-fund", "--prefer-online"],
+  };
 }
 
 function runInstall(manager, cwd) {
   log.step(`Installing template dependencies with ${manager.name}…`);
-  const result = spawnSync(manager.name, manager.args, {
+  const result = spawnSync(manager.command || manager.name, manager.args, {
     cwd,
     stdio: "inherit",
     env: {
@@ -124,12 +156,15 @@ export async function ensureRuntime({ templateDir, repo, branch, install }) {
     locks.map((file) => fsp.readFile(file, "utf8").catch(() => "")),
   );
 
+  const runtime = preferredRuntime();
+
   const key = sha256([
     packageJson,
     ...lockContents,
     process.platform,
     process.arch,
-    process.versions.node.split(".")[0],
+    runtime.name,
+    String(runtime.version).split(".")[0],
     VERSION,
   ]);
   const runtimeDir = path.join(
@@ -160,7 +195,7 @@ export async function ensureRuntime({ templateDir, repo, branch, install }) {
     await fsp.copyFile(lock, path.join(runtimeDir, path.basename(lock)));
   }
 
-  const preferred = detectManager(templateDir);
+  const preferred = detectManager(runtime);
   try {
     runInstall(preferred, runtimeDir);
   } catch (error) {
