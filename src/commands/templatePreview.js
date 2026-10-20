@@ -3,6 +3,7 @@ import { DEFAULT_TEMPLATE_BRANCH, resolveRepo } from "../lib/git.js";
 import { loadConfig, saveConfig } from "../lib/config.js";
 import { runPreview } from "../lib/preview.js";
 import { findProjectDir } from "../lib/workspace.js";
+import { resolvePreviewRoot } from "../lib/platform.js";
 import { log, color } from "../lib/log.js";
 
 export async function templatePreviewCommand(options) {
@@ -56,6 +57,11 @@ export async function templatePreviewCommand(options) {
     );
   }
 
+  const previewRoot = resolvePreviewRoot({
+    override: options.previewDir,
+    configured: config.previewDir,
+  });
+
   await runPreview({
     repo,
     branch,
@@ -67,5 +73,6 @@ export async function templatePreviewCommand(options) {
     offline: options.offline,
     keepTemp: options.keepTemp,
     open: options.open,
+    previewRoot,
   });
 }

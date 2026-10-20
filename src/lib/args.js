@@ -56,6 +56,7 @@ export function parseArgs(rawArgv) {
     templateBranch: null,
     port: null,
     host: null,
+    previewDir: null,
     force: false,
     install: true,
     keepTemp: false,
@@ -154,6 +155,11 @@ export function parseArgs(rawArgv) {
       case "--host":
       case "-H": {
         options.host = takeValue(argv, index, arg);
+        index += 1;
+        break;
+      }
+      case "--preview-dir": {
+        options.previewDir = takeValue(argv, index, arg);
         index += 1;
         break;
       }

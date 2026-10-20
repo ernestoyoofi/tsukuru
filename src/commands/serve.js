@@ -2,6 +2,7 @@ import { DEFAULT_TEMPLATE_BRANCH, resolveRepo } from "../lib/git.js";
 import { loadConfig } from "../lib/config.js";
 import { runPreview } from "../lib/preview.js";
 import { resolveProjectDir } from "../lib/workspace.js";
+import { resolvePreviewRoot } from "../lib/platform.js";
 import { log, color } from "../lib/log.js";
 
 export async function serveCommand(options) {
@@ -21,6 +22,11 @@ export async function serveCommand(options) {
   const projectDir = await resolveProjectDir(options.dir);
   log.step(`Project: ${color.bold(projectDir)}`);
 
+  const previewRoot = resolvePreviewRoot({
+    override: options.previewDir,
+    configured: config.previewDir,
+  });
+
   await runPreview({
     repo,
     branch,
@@ -32,5 +38,6 @@ export async function serveCommand(options) {
     offline: options.offline,
     keepTemp: options.keepTemp,
     open: options.open,
+    previewRoot,
   });
 }

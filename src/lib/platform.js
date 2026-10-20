@@ -25,9 +25,33 @@ export function tempRoot() {
     : os.tmpdir();
 }
 
-export function sessionPath(kind) {
+export function normalizePreviewRoot(value) {
+  if (!value || value === "tmp") return tempRoot();
+  if (value === "home") return path.join(tsukuruHome(), "preview");
+
+  const text = String(value).trim();
+  if (!text || text === "tmp") return tempRoot();
+  if (text === "home") return path.join(tsukuruHome(), "preview");
+  if (text === "~") return os.homedir();
+  if (text.startsWith("~/") || text.startsWith("~\\")) {
+    return path.join(os.homedir(), text.slice(2));
+  }
+
+  return path.resolve(text);
+}
+
+export function resolvePreviewRoot({ override, configured } = {}) {
+  const requested =
+    override ||
+    process.env.TSUKURU_PREVIEW_DIR ||
+    configured;
+
+  return normalizePreviewRoot(requested);
+}
+
+export function sessionPath(kind, root = tempRoot()) {
   const id = randomBytes(4).toString("hex");
-  return path.join(tempRoot(), `${id}-tsukuru-${kind}`);
+  return path.join(root, `${id}-tsukuru-${kind}`);
 }
 
 export function slugify(value) {

@@ -33,7 +33,7 @@ Commands
   publish [dir]       Commit post and site changes, then push to origin.
                       Initializes git and asks for a repository URL (SSH or
                       HTTPS) when no origin remote is configured.
-  config              Show the persistent config in ~/.tsukuru/config.json.
+  config              Show the persistent config and preview location.
   help                Show this help.
 
 Aliases
@@ -66,6 +66,10 @@ Options
       --protocol <protocol>  publish: ssh or https when using owner/repo.
   -p, --port <port>          Preview port. Default: 3000
   -H, --host <host>          Preview hostname. Default: 0.0.0.0
+      --preview-dir <path>   Preview workspace parent: tmp, home, or a path.
+                             Default: OS temp directory. "home" uses
+                             ~/.tsukuru/preview. With the config command,
+                             saves the value permanently.
       --force                init: allow a non-empty target directory.
                              serve/validate/template-preview: force a template
                              update check (same as --refresh).
@@ -79,20 +83,25 @@ Options
       --publish              validate: show posts ready to publish.
 
 Storage
-  ~/.tsukuru/config.json   Persistent defaults (repo, branches, port, host).
+  ~/.tsukuru/config.json   Persistent defaults (repo, branches, port, host,
+                           previewDir).
   ~/.tsukuru/templates/    Cached template repositories.
   ~/.tsukuru/runtime/      Installed template dependencies.
+  ~/.tsukuru/preview/      Preview workspaces when previewDir is "home".
   Cached templates are checked for updates after 24 hours. If the remote has
   no new commit, the cached version is reused. Use --force to check now.
-  Temporary preview and validation workspaces are created in the OS temp
-  directory and removed when the command exits (unless --keep-temp).
+  Preview workspaces use the OS temp directory by default. Save a permanent
+  location with "tsukuru config --preview-dir home" (for ~/.tsukuru/preview)
+  or "tsukuru config --preview-dir <path>". Use --preview-dir on serve or
+  template-preview for a one-off override.
+  Temporary workspaces are removed when the command exits (unless --keep-temp).
 
 Environment
   TSUKURU_RUNTIME (bun|node), TSUKURU_HOME, TSUKURU_REPO,
   TSUKURU_STRUCTURE_BRANCH, TSUKURU_TEMPLATE_BRANCH,
   TSUKURU_PREVIEW_REPO, TSUKURU_PREVIEW_BRANCH, TSUKURU_TMP_DIR,
-  TSUKURU_PORT, TSUKURU_HOST, TSUKURU_TEMPLATE_TTL_MINUTES,
-  NO_COLOR, FORCE_COLOR
+  TSUKURU_PREVIEW_DIR, TSUKURU_PORT, TSUKURU_HOST,
+  TSUKURU_TEMPLATE_TTL_MINUTES, NO_COLOR, FORCE_COLOR
 
 Examples
   tsukuru init first_article
@@ -101,6 +110,8 @@ Examples
   cd first_article
   tsukuru serve
   tsukuru preview --port 4000 --open
+  tsukuru serve --preview-dir home
+  tsukuru config --preview-dir home
   tsukuru validate --unvalid --publish
   tsukuru publish
 

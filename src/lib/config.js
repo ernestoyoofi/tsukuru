@@ -17,6 +17,7 @@ export const DEFAULT_CONFIG = {
   previewBranch: null,
   port: DEFAULT_PORT,
   host: DEFAULT_HOST,
+  previewDir: null,
 };
 
 export function configPath() {
@@ -46,6 +47,14 @@ function cleanupConfig(value) {
   }
   if (typeof value.host === "string" && value.host.trim()) {
     config.host = value.host.trim();
+  }
+  if (value.previewDir === null || value.previewDir === "") {
+    config.previewDir = null;
+  } else if (
+    typeof value.previewDir === "string" &&
+    value.previewDir.trim()
+  ) {
+    config.previewDir = value.previewDir.trim();
   }
 
   return config;

@@ -2,8 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { ensureRuntime, ensureTemplate } from "./template.js";
-import { existsSync, remove } from "./fs.js";
-import { sessionPath } from "./platform.js";
+import { ensureDir, existsSync, remove } from "./fs.js";
+import { sessionPath, tempRoot } from "./platform.js";
 import { openBrowser, spawnDetached, stopProcess } from "./process.js";
 import {
   copyConfig,
@@ -40,6 +40,7 @@ export async function runPreview({
   offline,
   keepTemp,
   open,
+  previewRoot,
 }) {
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
     throw new Error(
@@ -65,7 +66,9 @@ export async function runPreview({
 
   const contentDir = projectDir || template.dir;
   const usesLocalContent = Boolean(projectDir);
-  const sessionDir = sessionPath("prev");
+  const previewDir = previewRoot || tempRoot();
+  await ensureDir(previewDir);
+  const sessionDir = sessionPath("prev", previewDir);
 
   try {
     await materializeSession({

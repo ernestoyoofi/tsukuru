@@ -117,6 +117,15 @@ Uses your content when run inside a Tsukuru project; otherwise previews the
 template's own content. `--save` stores the choice in
 `~/.tsukuru/config.json`.
 
+### `tsukuru config`
+
+Shows the active config and paths. Save the preview location permanently:
+
+```sh
+tsukuru config --preview-dir home
+tsukuru config --preview-dir tmp
+```
+
 ## Template cache
 
 Templates are cached in `~/.tsukuru/templates` and checked for updates after
@@ -126,13 +135,42 @@ check immediately.
 
 Change the interval with `TSUKURU_TEMPLATE_TTL_MINUTES`.
 
+## Preview location
+
+Preview workspaces use the OS temporary directory by default. Save a permanent
+location with the config command:
+
+```sh
+tsukuru config --preview-dir home
+```
+
+This writes `previewDir` to `~/.tsukuru/config.json` and puts previews in
+`~/.tsukuru/preview`. A custom path works too:
+
+```sh
+tsukuru config --preview-dir "~/.cache/tsukuru/preview"
+```
+
+Reset to the OS temp directory:
+
+```sh
+tsukuru config --preview-dir tmp
+```
+
+Use `tsukuru serve --preview-dir home` for a one-off override without saving,
+or `TSUKURU_PREVIEW_DIR` as an environment override.
+
+The preview workspace is still deleted on exit unless `--keep-temp` is used.
+Validation and init workspaces continue to use the OS temporary directory.
+
 ## Storage
 
 ```txt
 ~/.tsukuru/
-├─ config.json     defaults (repo, branches, port, host)
+├─ config.json     defaults (repo, branches, port, host, previewDir)
 ├─ templates/      cached templates
-└─ runtime/        cached dependencies
+├─ runtime/        cached dependencies
+└─ preview/        optional preview workspace root (previewDir: "home")
 ```
 
 Set `TSUKURU_HOME` to use a different folder.
@@ -145,6 +183,7 @@ Set `TSUKURU_HOME` to use a different folder.
 --branch <branch>     Template branch
 --port <port>         Preview port (default 3000)
 --host <host>         Preview hostname (default 0.0.0.0)
+--preview-dir <path>  Preview workspace parent: tmp, home, or a path
 --force               Allow non-empty init, or force template refresh
 --refresh             Force template refresh
 --offline             Use the cached template only
