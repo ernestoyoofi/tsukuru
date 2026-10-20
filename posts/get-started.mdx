@@ -1,0 +1,85 @@
+---
+image: "https://picsum.photos/id/253/800/350.webp"
+title: "Getting Started with Tsukuru"
+description: "A practical guide to setting up post metadata and writing clear, engaging content with Tsukuru."
+date: "2026-08-22T15:25:02.555Z"
+author: ["Your Name"]
+tags: ["getting-started", "writing"]
+category: "guides"
+slug: "get-started"
+draft: false
+---
+
+Use this post as a starting point for your own articles. Replace the sample metadata and text with your content, then remove any sections you do not need.
+
+## Before You Start
+
+Every post begins with a YAML frontmatter block between the `---` lines. It contains the information Tsukuru uses to describe and organize the post.
+
+### Metadata Fields
+
+| Field         | Type                | Required | Default    | Description |
+|---------------|---------------------|----------|------------|-------------|
+| `image`       | string              | Yes      | -          | Image URL or path used as the post's cover image. |
+| `title`       | string              | Yes      | -          | Post title; must contain at least 2 characters. |
+| `description` | string              | Yes      | -          | Short summary; must contain at least 16 characters. |
+| `date`        | string              | Yes      | -          | Publication date in ISO 8601 format. |
+| `author`      | string \| string[]  | No       | `null`     | One author name or a list of author names. |
+| `tags`        | string[]            | No       | `[]`       | Tags that help describe and group the post. |
+| `category`    | string              | No       | `"global"` | Category used to organize the post. |
+| `canonical`   | string              | No       | `null`     | Canonical URL when this article is published elsewhere. |
+| `slug`        | string              | No       | filename   | URL-friendly name for the post. |
+| `codelink`    | string              | No       | `null`     | Optional short code associated with the post. |
+| `draft`       | boolean             | No       | `false`    | Set to `true` to keep the post out of production. |
+
+### Example Frontmatter
+
+```yaml
+---
+image: "/images/my-article-cover.webp"
+title: "A Clear and Helpful Article Title"
+description: "A concise summary that tells readers what they will learn."
+date: "2026-08-22T15:25:02.555Z"
+author: "Your Name"
+tags: ["tutorial", "writing"]
+category: "guides"
+slug: "clear-helpful-article"
+draft: true
+---
+```
+
+Use a quoted ISO date with a timezone, such as `2026-08-22T15:25:02.555Z`. Quote text values that contain punctuation, and keep list values inside square brackets.
+
+## Writing Your Post
+
+Start with a short introduction that explains the topic and why it matters. Use headings to make longer articles easy to scan, and keep each section focused on one idea.
+
+### Add Structure
+
+For example, a tutorial can guide readers through a sequence:
+
+1. Explain what they will build or learn.
+2. List any prerequisites.
+3. Walk through the steps in order.
+4. Summarize the result and suggest what to try next.
+
+Use **bold text** for important terms and `inline code` for filenames, commands, or other technical references. Add links with descriptive text, such as [the Tsukuru repository](https://github.com/).
+
+### Include Code When It Helps
+
+Fenced code blocks make examples easier to read:
+
+```js
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+```
+
+Add a language identifier after the opening fence when you want syntax highlighting.
+
+## Before Publishing
+
+- Confirm the title, description, date, and cover image are correct.
+- Check that tags, category, and slug match the article.
+- Set `draft: true` while the article is still in progress.
+- Preview the post and remove these starter instructions when your own content is ready.

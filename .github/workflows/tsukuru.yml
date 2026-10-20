@@ -1,0 +1,112 @@
+name: Deploy Tsukuru site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TEMPLATE: ${{ vars.TEMPLATE || 'ernestoyoofi/tsukuru' }}
+  TEMPLATE_BRANCH: ${{ vars.TEMPLATE_BRANCH || 'main' }}
+  DEPLOY: ${{ vars.DEPLOY }}
+  DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH || 'web-push' }}
+
+jobs:
+  deploy:
+    name: Build and deploy site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out content repository
+        uses: actions/checkout@v4
+
+      - name: Clone template
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${TEMPLATE:?Set the TEMPLATE repository variable}"
+          : "${TEMPLATE_BRANCH:?Set the TEMPLATE_BRANCH repository variable}"
+          : "${GH_TOKEN:?Set the GH_TOKEN secret}"
+          git clone --depth 1 --branch "$TEMPLATE_BRANCH" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${TEMPLATE}.git" \
+            tsukuru
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Remove template defaults
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf tsukuru/posts tsukuru/images tsukuru/template-content
+
+      - name: Apply site content and configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -f tsukuru.config.js ]]; then
+            cp -f tsukuru.config.js tsukuru/tsukuru.config.js
+          fi
+
+          if [[ -f CNAME ]]; then
+            mkdir -p tsukuru/public
+            cp -f CNAME tsukuru/public/CNAME
+          fi
+
+          if [[ -d public ]]; then
+            mkdir -p tsukuru/public
+            cp -a public/. tsukuru/public/
+          fi
+
+          if [[ -f favicon.ico ]]; then
+            cp -f favicon.ico tsukuru/src/app/favicon.ico
+          fi
+
+          if [[ -d posts ]]; then
+            mkdir -p tsukuru/posts
+            cp -a posts/. tsukuru/posts/
+          fi
+
+      - name: Install dependencies and validate content
+        shell: bash
+        working-directory: tsukuru
+        run: |
+          set -euo pipefail
+          npm install --prefer-online
+          node tsukuru.valid.test.js
+
+      - name: Build static site
+        shell: bash
+        working-directory: tsukuru
+        run: npm run build
+
+      - name: Verify static output
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d tsukuru/out
+          touch tsukuru/out/.nojekyll
+
+      - name: Publish deployment branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${DEPLOY:?Set the DEPLOY repository variable}"
+          : "${DEPLOY_BRANCH:?Set the DEPLOY_BRANCH repository variable}"
+          : "${GH_TOKEN:?Set the GH_TOKEN secret}"
+
+          git -C tsukuru/out init
+          git -C tsukuru/out config user.name "github-actions[bot]"
+          git -C tsukuru/out config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C tsukuru/out add --all
+          git -C tsukuru/out commit -m "Deploy Tsukuru output"
+          git -C tsukuru/out branch -M "$DEPLOY_BRANCH"
+          git -C tsukuru/out remote add origin \
+            "https://x-access-token:${GH_TOKEN}@github.com/${DEPLOY}.git"
+          git -C tsukuru/out push --force origin "$DEPLOY_BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
