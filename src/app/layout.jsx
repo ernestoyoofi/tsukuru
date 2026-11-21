@@ -3,6 +3,7 @@ import Header from "@/components/ui/Header";
 import MaintenanceUIPage from "@/components/ui/Maintenance";
 import GenerateMetadata, { isMaintenance } from "../lib/metadata";
 import "./globals.css";
+import Analytics from "@/components/ui/Analytics";
 import Footer from "@/components/ui/Footer";
 import detectAssets from "@/lib/assets-detected";
 import loadConfig from "@/lib/load-config";
@@ -73,6 +74,7 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={globalVariableFonts}>
       <body className="min-h-full flex flex-col">
         <GlobalRootClient>
+          <Analytics config={loadConfigs.metadata.analytics} />
           <Header data={basicMeta} />
           <main className="w-full min-h-[calc(100dvh-50px)]">{children}</main>
           <Footer data={basicMeta} />

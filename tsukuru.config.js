@@ -105,8 +105,8 @@ export const TsukuruConfig = {
     googleverfication: "", // Optional: For google indexing
     analytics: {
       type: "none", // Types of analytics providers on the web 'google' | 'umami' | 'plausible' | 'matomo' (default: 'none' as undefined)
-      id: "", // Required if you fill this
-      script: "", // Required if type 'umami' | 'plausible' | 'matomo'
+      id: "", // Google measurement ID, Umami website ID, Plausible domain, or Matomo site ID
+      script: "", // Custom script URL for Umami, Plausible, or Matomo; Matomo URL must end in .js
     },
   },
   // Reference to @giscus/react

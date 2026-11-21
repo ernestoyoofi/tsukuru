@@ -60,6 +60,28 @@ When no options are provided, all sections are shown. Terminal colors are
 enabled automatically when supported; set `FORCE_COLOR=1` to force colors or
 `NO_COLOR=1` to disable them.
 
+### Analytics
+
+Analytics are disabled by default. Configure one provider in
+`metadata.analytics` in `tsukuru.config.js`:
+
+```js
+analytics: {
+  type: "umami",
+  id: "your-website-id",
+  script: "https://analytics.example/script.js",
+},
+```
+
+Use the provider's expected value for `id`: a Google measurement ID, Umami
+website ID, Plausible site domain, or Matomo site ID. Google uses Google's
+gtag.js automatically; Umami, Plausible, and Matomo use the custom `script`
+URL, so self-hosted and proxy URLs are supported. Plausible's `script` is its
+script endpoint (commonly `/js/script.js`); Matomo's URL must end in `.js`,
+with the matching `.php` tracker endpoint beside it. Page views are tracked
+across client-side navigation. Since the site is statically exported, scripts
+are loaded in the visitor's browser and no analytics server runtime is needed.
+
 ### Target
 
 - [x] Search feature with `minisearch`
@@ -72,9 +94,10 @@ enabled automatically when supported; set `FORCE_COLOR=1` to force colors or
 - [x] Shortlink detected and redirect it
 - [x] Validate posts
 - [x] Create script init for installer, preview and check validate format (`tsukuru init`, `tsukuru view`, `tsukuru build`, `tsukuru validate`), [please check here!](https://github.com/ernestoyoofi/tsukuru/tree/setup/script)
-- [ ] Adding multiple analytics
+- [x] Adding analytics
+- [x] Add dark mode
 - [ ] Add page pad to limit view
-- [x] Add dark mode (Beta, unstable)
+- [ ] Adding option llms.txt generator
 
 <!--
 > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.

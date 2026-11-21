@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { cn } from "@/lib/cn";
 import { useSearchMinisearchData, useThemeStore } from "@/lib/global/zustand";
 import CardPost from "./CardPost";
@@ -77,6 +78,38 @@ export default function Header({ data = {} }) {
     return minisearch.search(searchQueryDef);
   }, [minisearch, searchQueryDef]);
 
+  const handleThemeToggle = (event) => {
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      toggleTheme();
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = bounds.left + bounds.width / 2;
+    const y = bounds.top + bounds.height / 2;
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+    const root = document.documentElement;
+    root.style.setProperty("--theme-transition-x", `${x}px`);
+    root.style.setProperty("--theme-transition-y", `${y}px`);
+    root.style.setProperty("--theme-transition-radius", `${radius}px`);
+
+    const transition = document.startViewTransition(() => {
+      flushSync(toggleTheme);
+    });
+    const clearTransitionOrigin = () => {
+      root.style.removeProperty("--theme-transition-x");
+      root.style.removeProperty("--theme-transition-y");
+      root.style.removeProperty("--theme-transition-radius");
+    };
+    transition.finished.then(clearTransitionOrigin, clearTransitionOrigin);
+  };
+
   return (
     <>
       <div
@@ -132,7 +165,7 @@ export default function Header({ data = {} }) {
             title={
               theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
             }
-            onClick={toggleTheme}
+            onClick={handleThemeToggle}
             className="w-[50px] min-w-[50px] h-[50px] flex items-center justify-center cursor-pointer active:scale-95 duration-150 outline-none"
           >
             {theme === "dark" ? (
