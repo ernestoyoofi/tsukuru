@@ -116,15 +116,34 @@ const baseComponents = {
       )}
     />
   ),
-  input: ({ className, ...props }) => (
-    <input
-      {...props}
-      className={cn(
-        "mr-2 align-middle accent-sky-600 disabled:cursor-default",
-        className,
-      )}
-    />
-  ),
+  input: ({ className, type, ...props }) => {
+    if (type === "checkbox") {
+      return (
+        <label className="task-checkbox-wrapper mr-2 inline-flex align-middle">
+          <input
+            type={type}
+            {...props}
+            className={cn("peer sr-only", className)}
+          />
+          <span
+            className="task-checkbox border border-neutral-400 bg-neutral-50 dark:border-neutral-500 dark:bg-neutral-100 peer-checked:border-blue-600 peer-checked:bg-blue-600"
+            aria-hidden="true"
+          />
+        </label>
+      );
+    }
+
+    return (
+      <input
+        type={type}
+        {...props}
+        className={cn(
+          "mr-2 align-middle accent-sky-600 disabled:cursor-default",
+          className,
+        )}
+      />
+    );
+  },
   blockquote: (props) => (
     <blockquote
       className="mt-4 border-l-4 border-zinc-300 pl-4 italic text-zinc-700"
@@ -201,7 +220,10 @@ export default async function Reader({ content = "" }) {
             rehypeHeadingData,
             [
               rehypePrettyCode,
-              { theme: "github-light", keepBackground: false },
+              {
+                theme: { light: "github-light", dark: "github-dark" },
+                keepBackground: false,
+              },
             ],
           ],
           remarkPlugins: [remarkGfm],

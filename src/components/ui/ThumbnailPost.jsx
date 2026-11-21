@@ -9,6 +9,7 @@ export default function ThumbnailPost({
   className = "",
   timeToLazy = true,
   alt = "Image",
+  priority = false,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isError, setError] = useState(false);
@@ -55,7 +56,8 @@ export default function ThumbnailPost({
         )}
         src={imageSrc}
         alt={alt || "Image"}
-        loading={timeToLazy ? "lazy" : "eager"}
+        loading={priority ? "eager" : timeToLazy ? "lazy" : "eager"}
+        fetchPriority={priority ? "high" : undefined}
         decoding="async"
         onLoad={() => setLoading(false)}
         onError={() => {

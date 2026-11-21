@@ -1,8 +1,41 @@
 import MiniSearch from "minisearch";
 import { toast } from "sonner";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 const globalPath = `/minisearch-feature/indexing.json`;
+
+export const useThemeStore = create(
+  persist(
+    (set) => ({
+      theme: "light",
+      toggleTheme: () =>
+        set((state) => {
+          const theme = state.theme === "dark" ? "light" : "dark";
+          if (typeof document !== "undefined") {
+            document.documentElement.dataset.theme = theme;
+          }
+          return { theme };
+        }),
+    }),
+    {
+      name: "tsukuru-theme",
+      skipHydration: true,
+      onRehydrateStorage: () => (state, error) => {
+        if (error) {
+          console.error(
+            "[useThemeStore] Could not restore theme preference",
+            error,
+          );
+        }
+        if (typeof document !== "undefined") {
+          document.documentElement.dataset.theme =
+            state?.theme === "dark" ? "dark" : "light";
+        }
+      },
+    },
+  ),
+);
 
 export const useSearchMinisearchData = create((set) => ({
   minisearch: null,

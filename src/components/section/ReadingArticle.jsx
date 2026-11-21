@@ -44,7 +44,11 @@ export default function ReadingArticle({ data = {} }) {
             </span>
           </div>
         </div>
-        <ThumbnailPost className="mt-4" url={data?.metadata?.image || ""} />
+        <ThumbnailPost
+          className="mt-4"
+          url={data?.metadata?.image || ""}
+          priority
+        />
         <div className="my-5 border-b border-dashed border-neutral-300" />
         <Reader content={data?.content || ""} />
         <div className="mt-9 mb-4 border-b border-dashed border-neutral-300" />

@@ -19,7 +19,7 @@ export default function ListArticle({ data = {}, tag = "", heading = "" }) {
             key={`${items.slug}-${i}`}
             className="w-full sm:w-[50%] xl:w-[calc(100%/3)] p-2 px-2"
           >
-            <CardPost data={items} />
+            <CardPost data={items} priority={i === 0} />
           </div>
         ))}
       </div>

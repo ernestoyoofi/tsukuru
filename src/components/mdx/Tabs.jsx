@@ -35,7 +35,7 @@ export default function MDX_Component_Tabs({ children = null }) {
             key={tab.key ?? `tab-${i}`}
             type="button"
             onClick={() => go(i)}
-            className={`relative -mb-px px-1 pb-2 text-sm ${
+            className={`relative -mb-px px-1 pb-2 text-sm cursor-pointer ${
               i === active
                 ? "font-semibold text-zinc-950"
                 : "text-zinc-500 hover:text-zinc-900"

@@ -9,6 +9,7 @@ export default function CardPost({
   forcestyle = null,
   titleclass = "",
   descriptionclass = "",
+  priority = false,
 }) {
   const styleCard = String(forcestyle || data.cardtype || "basic");
 
@@ -56,6 +57,7 @@ export default function CardPost({
           <ThumbnailPost
             url={data?.image || ""}
             alt={`Image of ${data?.title}`}
+            priority={priority}
           />
         </div>
         <div className="w-[calc(100%-170px)] pl-4">
@@ -91,7 +93,7 @@ export default function CardPost({
 
   return (
     <Link className="w-full" href={`/${data?.slug || "no-generate"}`}>
-      <ThumbnailPost url={data?.image || ""} />
+      <ThumbnailPost url={data?.image || ""} priority={priority} />
       <div className="py-4">
         <h3
           className={cn("font-semibold text-xl mb-2 line-clamp-2", titleclass)}

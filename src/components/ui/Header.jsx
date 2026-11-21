@@ -1,18 +1,20 @@
 "use client";
 
-import { Magnifier } from "@gravity-ui/icons";
+import { Magnifier, Moon, Sun } from "@gravity-ui/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { useSearchMinisearchData } from "@/lib/global/zustand";
+import { useSearchMinisearchData, useThemeStore } from "@/lib/global/zustand";
 import CardPost from "./CardPost";
 
 export default function Header({ data = {} }) {
   const [opensearchbox, setopensearchbox] = useState(false);
   const { minisearch, status_fetch, fetchDataIndexing } =
     useSearchMinisearchData();
+  const theme = useThemeStore((state) => state.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const [searchQuery, setSearchQuery] = useState("");
   const searchQueryDef = useDeferredValue(searchQuery);
   const searchPanelRef = useRef(null);
@@ -108,7 +110,7 @@ export default function Header({ data = {} }) {
           </Link>
           <button
             type="button"
-            className="w-[50px] min-w-[50px] h-[50px] flex items-center cursor-pointer active:scale-90 duration-150 outline-none"
+            className="w-[50px] min-w-[50px] h-[50px] flex items-center cursor-pointer active:scale-95 duration-150 outline-none"
             aria-label="Navigation"
             onClick={() => {
               setopensearchbox(true);
@@ -118,8 +120,26 @@ export default function Header({ data = {} }) {
               ctrl+k
             </span>
             <div className="w-[50px] min-w-[50px] h-[50px] flex items-center justify-center">
-              <Magnifier width={21} height={21} />
+              <Magnifier width={18} height={18} />
             </div>
+          </button>
+          <button
+            type="button"
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            aria-pressed={theme === "dark"}
+            title={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            onClick={toggleTheme}
+            className="w-[50px] min-w-[50px] h-[50px] flex items-center justify-center cursor-pointer active:scale-95 duration-150 outline-none"
+          >
+            {theme === "dark" ? (
+              <Sun width={18} height={18} />
+            ) : (
+              <Moon width={18} height={18} />
+            )}
           </button>
         </div>
       </header>

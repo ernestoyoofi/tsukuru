@@ -9,17 +9,20 @@ import {
   useRef,
   useState,
 } from "react";
+import { useThemeStore } from "@/lib/global/zustand";
 
 let mermaidInitialized = false;
-function ensureMermaidInit() {
-  if (!mermaidInitialized) {
+let currentMermaidTheme = null;
+function ensureMermaidInit(theme) {
+  if (!mermaidInitialized || currentMermaidTheme !== theme) {
     mermaid.initialize({
       startOnLoad: false,
-      theme: "default",
+      theme,
       securityLevel: "loose",
       fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui",
     });
     mermaidInitialized = true;
+    currentMermaidTheme = theme;
   }
 }
 
@@ -46,12 +49,13 @@ export default function MDX_Component_Mermaid({ chart = "", children = null }) {
   const containerRef = useRef(null);
   const [failed, setFailed] = useState(false);
   const text = toChartText(chart, children);
+  const theme = useThemeStore((state) => state.theme);
 
   useEffect(() => {
     if (!text || !containerRef.current) return;
     let cancelled = false;
 
-    ensureMermaidInit();
+    ensureMermaidInit(theme === "dark" ? "dark" : "default");
 
     // mermaid.render is stable and doesn't rely on DOM scan like mermaid.run,
     // avoids Turbopack async chunk HMR deletion for dagre-*.mjs
@@ -68,7 +72,7 @@ export default function MDX_Component_Mermaid({ chart = "", children = null }) {
     return () => {
       cancelled = true;
     };
-  }, [id, text]);
+  }, [id, text, theme]);
 
   return (
     <div className="my-4 min-w-0 max-w-full overflow-x-auto rounded-xl border border-zinc-200 p-4 [&_svg]:max-w-none">

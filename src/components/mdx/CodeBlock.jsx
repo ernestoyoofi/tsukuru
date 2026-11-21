@@ -209,7 +209,7 @@ export default function MDX_Component_CodeBlock({
                       key={key}
                       className={
                         isHL
-                          ? "block border-l-2 border-amber-400 bg-amber-50/70 px-4 pr-6"
+                          ? "block border-l-2 border-amber-400 bg-amber-50/70 px-4 pr-6 dark:border-amber-500 dark:bg-amber-950/60"
                           : "block px-4 pr-6"
                       }
                     >

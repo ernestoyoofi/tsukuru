@@ -16,7 +16,7 @@ export default function CategoryItem({ name = "", count = 0 }) {
         <ArrowRight className="-ml-1 blur-xs opacity-0 rotate-45 group-hover:ml-1 group-hover:blur-none group-hover:opacity-100 group-hover:-rotate-45 duration-200" />
       </div>
       <div className="flex items-center text-[0.8rem]">
-        <span className="bg-neutral-100 group-hover:bg-blue-100 p-0.5 px-1 rounded-md duration-300 font-semibold">
+        <span className="bg-neutral-100 dark:bg-neutral-200 dark:text-neutral-600 group-hover:bg-blue-100 group-hover:dark:bg-blue-900 p-0.5 px-1 rounded-md duration-300 font-semibold">
           {String(count || 0)}
         </span>
       </div>

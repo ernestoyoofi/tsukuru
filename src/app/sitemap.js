@@ -19,6 +19,7 @@ export default async function sitemap() {
     changeFrequency: "weekly",
     priority: 0.7,
   }));
+  
   const listArticleXML = listArticle.map((items) => ({
     url: new URL(`/${items.slug}`, urlOrigin).toString(),
     lastModified: new Date(items.date),

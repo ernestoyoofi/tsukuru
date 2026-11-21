@@ -74,7 +74,7 @@ enabled automatically when supported; set `FORCE_COLOR=1` to force colors or
 - [x] Create script init for installer, preview and check validate format (`tsukuru init`, `tsukuru view`, `tsukuru build`, `tsukuru validate`), [please check here!](https://github.com/ernestoyoofi/tsukuru/tree/setup/script)
 - [ ] Adding multiple analytics
 - [ ] Add page pad to limit view
-- [ ] Add dark mode
+- [x] Add dark mode (Beta, unstable)
 
 <!--
 > Named after Tsukuru (創る) the Japanese art of bringing something meaningful into existence. Built for those who want full creative control over both their words and the canvas they live on.
