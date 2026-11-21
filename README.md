@@ -71,7 +71,8 @@ enabled automatically when supported; set `FORCE_COLOR=1` to force colors or
 - [x] Support costum destination folder
 - [x] Shortlink detected and redirect it
 - [x] Validate posts
-- [ ] Create script init for installer, preview and check validate format (`tsukuru-md init`, `tsukuru-md view`, `tsukuru-md build`, `tsukuru-md validate`)
+- [x] Create script init for installer, preview and check validate format (`tsukuru init`, `tsukuru view`, `tsukuru build`, `tsukuru validate`), [please check here!](https://github.com/ernestoyoofi/tsukuru/tree/setup/script)
+- [ ] Adding multiple analytics
 - [ ] Add page pad to limit view
 - [ ] Add dark mode
 

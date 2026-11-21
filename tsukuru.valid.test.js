@@ -15,7 +15,7 @@ function getPostName(post) {
 }
 
 function formatValidationError(error) {
-  if (/^image:/.test(error)) return "require image";
+  if (/^image:/.test(error)) return "image must be at least 3 characters";
   if (/^title:/.test(error)) return "require title";
   if (/^description:/.test(error)) return "description to short";
   return error;

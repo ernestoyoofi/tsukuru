@@ -89,8 +89,12 @@ export default async function ContentParser(strFileMDX = "", fileName = "") {
 
   const errors = [];
 
-  const imgErr = validateRequiredString(data.image, "image", 2);
-  if (imgErr) errors.push(imgErr);
+  const image =
+    typeof data.image === "string" ? data.image.trim() : data.image;
+  if (image !== undefined && image !== null && image !== "") {
+    const imgErr = validateRequiredString(image, "image", 3);
+    if (imgErr) errors.push(imgErr);
+  }
 
   const titleErr = validateRequiredString(data.title, "title", 2);
   if (titleErr) errors.push(titleErr);
@@ -109,7 +113,7 @@ export default async function ContentParser(strFileMDX = "", fileName = "") {
   }
 
   const meta = {
-    image: data.image,
+    image: image || null,
     title: data.title,
     description: data.description,
     date: data.date,
