@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   TEMPLATE: ${{ vars.TEMPLATE || 'ernestoyoofi/tsukuru' }}
@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf tsukuru/posts tsukuru/images tsukuru/template-content
+          rm -rf tsukuru/posts tsukuru/images tsukuru/public/assets/* tsukuru/public/images/* tsukuru/template-content
 
       - name: Apply site content and configuration
         shell: bash
@@ -97,7 +97,6 @@ jobs:
           set -euo pipefail
           : "${DEPLOY:?Set the DEPLOY repository variable}"
           : "${DEPLOY_BRANCH:?Set the DEPLOY_BRANCH repository variable}"
-          : "${GH_TOKEN:?Set the GH_TOKEN secret}"
 
           git -C tsukuru/out init
           git -C tsukuru/out config user.name "github-actions[bot]"
@@ -105,8 +104,15 @@ jobs:
           git -C tsukuru/out add --all
           git -C tsukuru/out commit -m "Deploy Tsukuru output"
           git -C tsukuru/out branch -M "$DEPLOY_BRANCH"
-          git -C tsukuru/out remote add origin \
-            "https://x-access-token:${GH_TOKEN}@github.com/${DEPLOY}.git"
-          git -C tsukuru/out push --force origin "$DEPLOY_BRANCH"
+
+          # Coba pakai GITHUB_TOKEN bawaan dulu (jika gagal, lanjut ke blok ||)
+          git -C tsukuru/out remote add origin "https://x-access-token:${DEFAULT_GH_TOKEN}@github.com/${DEPLOY}.git"
+          
+          if ! git -C tsukuru/out push --force origin "$DEPLOY_BRANCH"; then
+            echo "::warning::Push dengan GITHUB_TOKEN gagal, mencoba fallback ke GH_TOKEN..."
+            git -C tsukuru/out remote set-url origin "https://x-access-token:${FALLBACK_GH_TOKEN}@github.com/${DEPLOY}.git"
+            git -C tsukuru/out push --force origin "$DEPLOY_BRANCH"
+          fi
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          DEFAULT_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FALLBACK_GH_TOKEN: ${{ secrets.GH_TOKEN }}
