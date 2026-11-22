@@ -53,7 +53,7 @@ export default function Footer({ data = {} }) {
                     className="group flex items-center justify-start text-neutral-600 hover:underline hover:text-blue-500 duration-200 py-1"
                   >
                     <div className="w-4 min-w-4 mr-1 -ml-5 group-hover:ml-0 flex items-center duration-200 pointer-events-none">
-                      <span className="rotate-180 -ml-4 opacity-0 blur-sm group-hover:rotate-0 group-hover:opacity-100 group-hover:ml-0 group-hover:blur-none duration-300">
+                      <span className="-ml-4 opacity-0 blur-sm group-hover:opacity-100 group-hover:ml-0 group-hover:blur-none duration-300">
                         <ArrowUpRight />
                       </span>
                     </div>

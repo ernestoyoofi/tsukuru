@@ -122,7 +122,7 @@ export default function Header({ data = {} }) {
         />
       </div>
       <div className="fixed top-0 left-0 w-full h-25 masking-gradation-top-to-bottom pointer-events-none z-101" />
-      <header className="sticky top-0 left-0 w-full py-2 z-101 bg-gradient-to-b from-30% from-slate-50 to-transparent">
+      <header className="sticky top-0 left-0 w-full py-2 z-101 bg-gradient-to-b from-30% from-slate-50 dark:from-neutral-950 to-transparent">
         <div className="w-full max-w-7xl m-auto h-12.5 flex items-center justify-between p-2">
           <Link className="w-full" href="/">
             {data.assets?.media?.header ? (
